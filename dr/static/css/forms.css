@@ -93,8 +93,8 @@ a:hover {
 
 .login-form-1 .login-button {
     position: absolute;
-    left: 300px;
-    top: 300px;
+    left: 65%;
+    top: 48%;
     background: #ffffff;
     color: black;
     padding: 11px 0;
@@ -109,7 +109,6 @@ a:hover {
 i {
     border: solid black;
     border-width: 0 3px 3px 0;
-    display: inline-block;
     padding: 3px;
 }
 
