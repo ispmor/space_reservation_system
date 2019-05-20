@@ -8,6 +8,7 @@
   <!-- Add additional CSS in static file -->
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  
 </head>
 <body>
   <div class="container-fluid">
@@ -18,6 +19,8 @@
           <li><a href="{% url 'index' %}">Home</a></li>
           <li><a href="">All Reservations</a></li>
           <li><a href="">All Rooms</a></li>
+          <li><a href="../dr/login"><strong>Login</strong></a></li>
+          <li><a href="../dr/register"><strong>Register</strong></a></li>
         </ul>
      {% endblock %}
       </div>
