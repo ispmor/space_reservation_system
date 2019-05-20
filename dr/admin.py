@@ -25,3 +25,5 @@ class ReservationAdmin(admin.ModelAdmin):
     list_filter = ['user', 'room']
 
 admin.site.register(Reservation, ReservationAdmin)
+admin.site.site_header = "DRIMn Reserve"
+admin.site.site_title = "DRIMn Reserve"
