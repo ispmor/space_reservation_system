@@ -97,3 +97,6 @@ class Reservation(models.Model):
     )
     end_reservation = models.DateTimeField(null=True, blank=True)
     start_reservation = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.user} {self.room}'  # niejednoznaczne
