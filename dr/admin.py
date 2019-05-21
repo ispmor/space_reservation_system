@@ -30,9 +30,14 @@ class ReservationAdmin(admin.ModelAdmin):
         calendar = Calendar()
         print("Gitesik")
         #tu sie bedzie działo wstawianie do kalendarza 
-        print(obj)
-        calendar.addEvent("15")
-        costam = Reservation.objects.filter()
+        print(obj.id)
+        summary = str(obj.user) + " " + str(obj.room)
+        sd = str(obj.start_reservation)
+        sd = sd[:10] + 'T' + sd[11:]
+        ed = str(obj.end_reservation)
+        ed = ed[:10] + 'T' + ed[11:]
+
+        calendar.addEvent(summary, sd, ed)
         
         return super().response_post_save_change(request, obj)
 

@@ -34,17 +34,17 @@ class Calendar:
         self.creds = creds
         self.service = build('calendar', 'v3', credentials=creds)
 
-    def addEvent(self, data):
+    def addEvent(self, summary, start_date, end_date):
         event = {
-          'summary': 'Google I/O 2019 We współpracy z DRIMN test',
-          'location': '800 Howard St., San Francisco, CA 94103',
-          'description': 'A chance to hear more about Google\'s developer products.',
+          'summary': summary,
+          'location': 'CZIiT',
+          'description': 'SGM UniStartApp 19L',
           'start': {
-            'dateTime': '2019-05-21T' + data + ':00:00+02:00',
+            'dateTime': start_date,
             'timeZone': 'Europe/Warsaw',
           },
           'end': {
-            'dateTime': '2019-05-21T23:00:00+02:00',
+            'dateTime': end_date,
             'timeZone': 'Europe/Warsaw',
           },
           'recurrence': [
