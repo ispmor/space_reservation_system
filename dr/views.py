@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from dr.models import Room, Reservation, User
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 
@@ -28,3 +30,13 @@ def register(request):
     return render(request, 'register.html')
 def forgot_password(request):
     return render(request, 'forgot_password.html')
+
+# dziala, pozostało dołączyć do odpowiednich stron z odpowiednimi templatkami.
+def email(request):
+
+    subject = 'Thank you for registering to our site'
+    message = ' it  means a world to us '
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['startapplocha86@gmail.com',]
+    send_mail( subject, message, email_from, recipient_list )
+    return register(request)
