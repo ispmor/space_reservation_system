@@ -1,25 +1,25 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
-django=2.2
-django-markdown-deux=1.0.5
-django-reservation=0.2.9
-google=2.0.2
-html5lib=1.0.1
-markdown2=2.3.7
-markupsafe=1.1.1
-mysql=0.0.2
-mysqlclient=1.4.2.post1
-openssl=1.1.1b
-pip=18.1
-pyopenssl=18.0.0
-python=3.7.1
-python-dateutil=2.8.0
-python-graphviz=0.8.4
-readline=7.0
-requests=2.21.0
-sqlite=3.26.0
-sqlparse=0.3.0
-urllib3=1.24.1
-webencodings=0.5.1
+django==2.2
+django-markdown-deux==1.0.5
+django-reservation==0.2.9
+google==2.0.2
+html5lib==1.0.1
+markdown2==2.3.7
+markupsafe==1.1.1
+mysql==0.0.2
+mysqlclient==1.4.2.post1
+openssl==1.1.1b
+pip==18.1
+pyopenssl==18.0.0
+python==3.7.1
+python-dateutil==2.8.0
+python-graphviz==0.8.4
+readline==7.0
+requests==2.21.0
+sqlite==3.26.0
+sqlparse==0.3.0
+urllib3==1.24.1
+webencodings==0.5.1
 
