@@ -1,8 +1,6 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
 # platform: linux-64
-conda=4.6.14
-conda-env=2.6.0
 django=2.2
 django-markdown-deux=1.0.5
 django-reservation=0.2.9
