@@ -31,7 +31,7 @@ class ReservationAdmin(admin.ModelAdmin):
         print("Gitesik")
         #tu sie bedzie działo wstawianie do kalendarza 
         print(obj.id)
-        summary = str(obj.user) + " " + str(obj.room)
+        summary = str(obj.room) + " " + str(obj.user)
         sd = str(obj.start_reservation)
         sd = sd[:10] + 'T' + sd[11:]
         ed = str(obj.end_reservation)
