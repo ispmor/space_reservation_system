@@ -71,6 +71,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'localreservation.wsgi.application'
+LOGIN_REDIRECT_URL = '/'
 
 
 # Database
