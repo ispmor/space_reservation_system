@@ -28,16 +28,16 @@ class ReservationAdmin(admin.ModelAdmin):
 
     def response_post_save_change(self, request, obj):
         calendar = Calendar()
-        print("Gitesik")
-        #tu sie bedzie działo wstawianie do kalendarza 
-        print(obj.id)
         summary = str(obj.room) + " " + str(obj.user)
         sd = str(obj.start_reservation)
         sd = sd[:10] + 'T' + sd[11:]
         ed = str(obj.end_reservation)
         ed = ed[:10] + 'T' + ed[11:]
 
-        calendar.addEvent(summary, sd, ed)
+        print(sd)
+        print(ed)
+        if obj.status == 'a':
+            calendar.addEvent(summary, sd, ed)
         
         return super().response_post_save_change(request, obj)
 

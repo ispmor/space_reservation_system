@@ -51,8 +51,8 @@ class Calendar:
             'RRULE:FREQ=DAILY;COUNT=1'
           ],
           'attendees': [
-            {'email': 'lpage@example.com'},
-            {'email': 'sbrin@example.com'},
+            #{'email': 'lpage@example.com'},
+            #{'email': 'sbrin@example.com'},
           ],
           'reminders': {
             'useDefault': False,
@@ -67,16 +67,3 @@ class Calendar:
         print('Event created: %s' % (event.get('htmlLink')))
 
 
-
-def main():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
- 
-    c = Calendar()
-    c.addEvent("22")
-
-    
-
-if __name__ == '__main__':
-    main()
