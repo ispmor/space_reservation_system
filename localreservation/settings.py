@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dr.apps.DrConfig',
+    'datetimepicker',
+    'bootstrapform',
+    'bootstrap_datepicker_plus',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +135,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'startapplocha86@gmail.com'
 EMAIL_HOST_PASSWORD = 'unistartapp1!'
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}

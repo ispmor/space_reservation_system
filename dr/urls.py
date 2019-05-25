@@ -16,4 +16,6 @@ urlpatterns = [
     path('forgot_password/done/', auth_views.PasswordResetDoneView.as_view(template_name='forgot_password_sent.html'), name='forgot_password_done'),
     path('forgot_password/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='forgot_password_confirm'),
     path('forgot_password/complete/', auth_views.PasswordResetCompleteView.as_view(), name='forgot_password_complete'),
+    path('reservation/', views.reservation, name='reservation'),
+    path('failed_reservation/', views.failed_reservation, name='failed_reservation')
 ]

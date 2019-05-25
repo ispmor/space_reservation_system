@@ -3,13 +3,13 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import UserCreateForm
+from .forms import UserCreateForm, ReservationForm
 
 
 def index(request):
@@ -31,7 +31,8 @@ def index(request):
     }
     return render(request, 'index.html', context=context)
 
-
+def failed_reservation(request):
+    return render(request, 'failed_reservation.html')
 # dziala, pozostało dołączyć do odpowiednich stron z odpowiednimi templatkami.
 def email(request):
 
@@ -42,9 +43,42 @@ def email(request):
     send_mail( subject, message, email_from, recipient_list )
     return register(request)
 
+
+def reservation(request):
+    form = ReservationForm()
+    if request.method == 'POST':
+        form = ReservationForm(request.POST)
+        print("jestem w post")
+        if form.is_valid():
+            print("form is valid")
+            if request.user.is_authenticated:
+                reservation = Reservation()
+                guest = User.objects.get(first_name=request.user)
+                reservation.user = guest
+                reservation.room = form.cleaned_data.get('room')
+                reservation.status = 'i'
+                reservation.start_reservation = form.cleaned_data.get('start_reservation')
+                reservation.end_reservation = form.cleaned_data.get('end_reservation')
+                print("rezerwacja")
+                print(reservation.status)
+                print(reservation.start_reservation)
+                print(reservation.end_reservation)
+                print(reservation)
+                reservation.save()
+                return HttpResponseRedirect('/')
+
+            else:
+                print("niezalogowany uzytkownik")
+                #reservation = form.save()
+                #reservation.save()
+                return HttpResponseRedirect('/')
+        else :
+            print("szajse! form nie valid")
+            return HttpResponseRedirect('/dr/failed_reservation')
     
-
-
+    else :
+        form = ReservationForm()
+        return render(request, 'reservation.html',{'form': form})
 
 
 
