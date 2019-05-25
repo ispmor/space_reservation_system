@@ -14,8 +14,6 @@
 
 </head>
 <body>
-<div class='text-center' style='padding:50px 0'>
-
       <form action="{% url 'reservation' %}" method="post">
       
       {{ form }}
@@ -24,8 +22,6 @@
         <input type="submit" value="Submit" class="btn btn-primary" />
       </div>
     </form>
-
-    </div>
     <script>
         $('#id_start_reservation').datetimepicker({ footer: true, modal: true, format: "yyyy-mm-dd HH:MM" });
         $('#id_end_reservation').datetimepicker({ footer: true, modal: true, format: "yyyy-mm-dd HH:MM" });

@@ -49,6 +49,7 @@ def reservation(request):
     if request.method == 'POST':
         form = ReservationForm(request.POST)
         print("jestem w post")
+        print(request.user)
         if form.is_valid():
             print("form is valid")
             if request.user.is_authenticated:

@@ -61,7 +61,7 @@ class ReservationForm(forms.ModelForm):
         
         cleaned_data = super(ReservationForm, self).clean()
         
-        if cleaned_data['start_reservation'] < cleaned_data['end_reservation']:
+        if cleaned_data['start_reservation'] > cleaned_data['end_reservation']:
             raise forms.ValidationError("Provided dates are incorrect. Please provide dates in proper order.")
 
         return cleaned_data
