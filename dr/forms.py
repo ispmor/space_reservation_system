@@ -3,9 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Reservation
 from datetime import datetime
-from datetimepicker.widgets import DateTimePicker
-from bootstrap3_datetime.widgets import DateTimePicker
-from bootstrap_datepicker_plus import DateTimePickerInput
+
 class UserCreateForm(UserCreationForm):
     email = forms.EmailField(required=True)
     group = forms.ChoiceField(required=True, choices=[('student', 'lecturer', 'extern')])
