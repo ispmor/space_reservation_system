@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserCreateForm, ReservationForm
-
+from .models import User
 
 def index(request):
     """View function for home page of system website"""
@@ -33,6 +33,8 @@ def index(request):
 
 def failed_reservation(request):
     return render(request, 'failed_reservation.html')
+def failed_register(request):
+    return render(request, 'failed_register.html')
 # dziala, pozostało dołączyć do odpowiednich stron z odpowiednimi templatkami.
 def email(request):
 
@@ -81,81 +83,25 @@ def reservation(request):
         form = ReservationForm()
         return render(request, 'reservation.html',{'form': form})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class SignUp(generic.CreateView):
-    form_class = UserCreateForm
-    success_url = reverse_lazy('login')
-    template_name = 'signup.html'
-
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
-    else:
-        form = UserCreateForm()
-        return render(request, 'signup.html', {'form': form})
-
 def register(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
         if form.is_valid():
             userObj = form.cleaned_data
+            username = userObj['username']
             first_name = userObj['first_name']
-            second_name = userObj['second_name']
+            last_name = userObj['last_name']
             email =  userObj['email']
             password =  userObj['password']
             group = userObj['group']
+            user = User(username=username, first_name=first_name, last_name=last_name, email=email, group=group, password=password)
             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-                User.objects.create_user(first_name, second_name, email, password, group)
+                user.save()
                 user = authenticate(username = username, password = password)
                 login(request, user)
                 return HttpResponseRedirect('/')
             else:
-                raise forms.ValidationError('Looks like a username with that email or password already exists')
+                return HttpResponseRedirect('/dr/failed_reservation')
     else:
         form = UserCreateForm()
-    return render(request, 'register.html', {'form' : form})    
-    # return render(request, 'register.html')
-# def register(request):
-#     if request.method == 'POST':
-#         form = UserForm(request.POST)
-#         if form.is_valid():
-#             new_user = form.save(commit=False)
-#             new_user.save()
-#             User.objects.create(user=new_user)
-#             cd = form.cleaned_data
-#             user = authenticate(
-#                 request,
-#                 username=cd['username'],
-#                 password=cd['password1'])
-#             if user is not None:
-#                 if user.is_active:
-#                     login(request, user)
-#                     return redirect('login/edit/')
-#                 else:
-#                     return HttpResponse('Disabled account')
-#             else:
-#                 return HttpResponse('Invalid Login')
-#     else:
-#         form = UserForm()
-#         args = {'form': form}
-#         return render(request, 'reg_form.html', args)
+    return render(request, 'register.html', {'form' : form})  

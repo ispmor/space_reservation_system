@@ -17,5 +17,7 @@ urlpatterns = [
     path('forgot_password/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='forgot_password_confirm'),
     path('forgot_password/complete/', auth_views.PasswordResetCompleteView.as_view(), name='forgot_password_complete'),
     path('reservation/', views.reservation, name='reservation'),
-    path('failed_reservation/', views.failed_reservation, name='failed_reservation')
+    path('failed_reservation/', views.failed_reservation, name='failed_reservation'),
+    path('failed_register/', views.failed_register, name='failed_register')
+
 ]

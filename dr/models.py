@@ -51,9 +51,12 @@ import uuid # Required for unique room instances
 
 class User(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular User')
+    username = models.CharField(max_length=150, null=False, default='nick')
     first_name = models.CharField(max_length=25, null=False)
     last_name = models.CharField(max_length=50, null=False)
     indeks = models.IntegerField(blank = True, null=True)
+    email = models.CharField(max_length=150, null=False, default='x515692@nwytg.net')
+    password = models.CharField(max_length=150, null=False, default='12345678')
     PERMISSION = (
         ('b', 'Banned'),
         ('a', 'Allowed'),
@@ -64,14 +67,14 @@ class User(models.Model):
         blank = True,
         help_text = "Is User allowed to create a reservation"
     )
-    GROUP = (
-        ('s', 'Student'),
-        ('l', 'Lecturer'),
-        ('x', 'External'),
+    groups = (
+        ('Student', 'Student'),
+        ('Lecturer', 'Lecturer'),
+        ('External', 'External'),
     )
     group = models.CharField(
         max_length = 1,
-        choices = GROUP,
+        choices = groups,
         blank = True,
         help_text = "To which group does User qualify"
     )
