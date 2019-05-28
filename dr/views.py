@@ -11,6 +11,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .forms import UserCreateForm, ReservationForm
 from .models import User
+from django.contrib.auth.models import User as muser
+from django.contrib.auth.hashers import make_password
 
 def index(request):
     """View function for home page of system website"""
@@ -95,8 +97,10 @@ def register(request):
             password =  userObj['password']
             group = userObj['group']
             user = User(username=username, first_name=first_name, last_name=last_name, email=email, group=group, password=password)
+            user_abstr = muser(username=username, first_name=first_name, last_name=last_name, email=email,  password=make_password(password))
             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
                 user.save()
+                user_abstr.save()
                 user = authenticate(username = username, password = password)
                 login(request, user)
                 return HttpResponseRedirect('/')
