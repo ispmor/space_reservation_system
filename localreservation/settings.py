@@ -135,3 +135,5 @@ EMAIL_HOST_PASSWORD = 'unistartapp1!'
 BOOTSTRAP4 = {
     'include_jquery': True,
 }
+
+#AUTH_USER_MODEL = ' dr.User'
