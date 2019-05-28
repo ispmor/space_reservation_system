@@ -58,7 +58,7 @@ def reservation(request):
             print("form is valid")
             if request.user.is_authenticated:
                 reservation = Reservation()
-                guest = User.objects.get(first_name=request.user)
+                guest = User.objects.get(username=request.user.username)
                 reservation.user = guest
                 reservation.room = form.cleaned_data.get('room')
                 reservation.status = 'i'
