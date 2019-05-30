@@ -2,7 +2,7 @@
 
 html,
 body {
-    background-image: linear-gradient(to bottom right, White, black);
+    background-image: linear-gradient(to bottom right, White, lightblue);
     padding: 10px;
     font-family: 'Varela Round';
 }
@@ -36,7 +36,7 @@ a:hover {
 /*=== 4. Main Form ===*/
 
 .login-form-1 {
-    max-width: 300px;
+    max-width: 500px;
     border-radius: 5px;
     display: inline-block;
 }

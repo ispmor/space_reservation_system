@@ -96,7 +96,7 @@ def register(request):
             email =  userObj['email']
             password =  userObj['password']
             group = userObj['group']
-            user = User(username=username, first_name=first_name, last_name=last_name, email=email, group=group, password=password)
+            user = User(username=username, first_name=first_name, last_name=last_name, email=email, group=group)
             user_abstr = muser(username=username, first_name=first_name, last_name=last_name, email=email,  password=make_password(password))
             if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
                 user.save()
