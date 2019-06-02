@@ -23,7 +23,13 @@ class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
         #exclude = ['user', 'id', 'indeks', 'status']
+        room = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Password'}))
         fields = ['room', 'start_reservation', 'end_reservation']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['room'].widget.attrs.update({'class': 'form-control'})
+        self.fields['start_reservation'].widget.attrs.update({'class': 'form-control'})
+        self.fields['end_reservation'].widget.attrs.update({'class': 'form-control'})
     def clean(self):
         
         cleaned_data = super(ReservationForm, self).clean()

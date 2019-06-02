@@ -2,43 +2,47 @@
 <head>
     <meta charset="utf-8" />
     <title>Reservation Form</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    	{% load static %}
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+
+    {% load static %}
+    <script src="{% static 'js/forms.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
 
 </head>
 <body>
-<div class="text-center" style="padding:50px 0">
-    <div><a href="/">Go to main page</a></div>
-    <div style="text-align: center; display: inline-block;">
-      <form action="{% url 'reservation' %}" method="post" autocomplete="off">
-      
-      {% for field in form %}
-    <div class="fieldWrapper">
-        {{ field.errors }}
-        {{ field.label_tag }} <br/>
-        {{ field }}
-        <br/><br/></br>
-    </div>
-    {% endfor %}
-      {% csrf_token %}
-    </div>
-      <div class="form-group">
-        <input type="submit" value="Submit" class="btn btn-primary" />
+
+    <div class="reservation-container"> 
+      <div class="col-sm-5 block">
+        <h2>Reservation Form:</h2>
+        <form  action="{% url 'reservation' %}" method="post" autocomplete="off"> 
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.errors }}
+                {{ field.label_tag }}
+                {{ field }}
+            </div>
+            {% endfor %}
+            {% csrf_token %}
+            <input type="submit" value="Submit" class="btn btn-primary" />
+          </form>
       </div>
-    </form>
+      <div class="col-sm-3">
+          <div class="calendar", style="position: center;"><iframe src="https://calendar.google.com/calendar/embed?src=lochyiodynce%40gmail.com&ctz=Europe%2FWarsaw" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe></div>
+      </div>
+    </div>
+
+   
+ 
     <script>
         $('#id_start_reservation').datetimepicker({ footer: true, modal: true, format: "yyyy-mm-dd HH:MM" });
         $('#id_end_reservation').datetimepicker({ footer: true, modal: true, format: "yyyy-mm-dd HH:MM" });
     </script>
-
-    <div class="calendar", style="position: center;"><iframe src="https://calendar.google.com/calendar/embed?src=lochyiodynce%40gmail.com&ctz=Europe%2FWarsaw" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe></div>
-</div>
 </body>
 </html>
