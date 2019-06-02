@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>DRIMn Reservations Home</h1>
+  <p>Welcome to DRIMN Reservations System, a system developed by <em>LiO Team</em>!</p>
+  <h2>Dynamic content</h2>
+  <p>The System has the following record counts:</p>
+  <ul>
+    <li><strong>Rooms:</strong> {{ num_rooms }}</li>
+    <li><strong>Reservations:</strong> {{ num_reservations }}</li>
+    <li><strong>Users:</strong> {{ num_users }}</li>
+    
+  </ul>
+  
+  <h1>DLA UNISTARTAPOWCOW INFO PONIZEJ<h1>
+  <p>Żeby zobaczyć panel admina  (login drimn, hasło unistartapp) -> /admin/</p>
+  <p>pozostałe strony w przygotowaniu</p>
+{% endblock %}
