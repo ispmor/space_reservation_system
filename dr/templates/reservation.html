@@ -14,11 +14,21 @@
 
 </head>
 <body>
+<div class="text-center" style="padding:50px 0">
     <div><a href="/">Go to main page</a></div>
-      <form action="{% url 'reservation' %}" method="post">
+    <div style="text-align: center; display: inline-block;">
+      <form action="{% url 'reservation' %}" method="post" autocomplete="off">
       
-      {{ form }}
+      {% for field in form %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} <br/>
+        {{ field }}
+        <br/><br/></br>
+    </div>
+    {% endfor %}
       {% csrf_token %}
+    </div>
       <div class="form-group">
         <input type="submit" value="Submit" class="btn btn-primary" />
       </div>
@@ -29,5 +39,6 @@
     </script>
 
     <div class="calendar", style="position: center;"><iframe src="https://calendar.google.com/calendar/embed?src=lochyiodynce%40gmail.com&ctz=Europe%2FWarsaw" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe></div>
+</div>
 </body>
 </html>

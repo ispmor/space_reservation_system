@@ -20,11 +20,10 @@ class UserCreateForm(forms.ModelForm):
         return cleaned_data
 
 class ReservationForm(forms.ModelForm):
-    start_reservation = forms.DateTimeField()
     class Meta:
         model = Reservation
-        exclude = ['user', 'id', 'indeks', 'status']
-
+        #exclude = ['user', 'id', 'indeks', 'status']
+        fields = ['room', 'start_reservation', 'end_reservation']
     def clean(self):
         
         cleaned_data = super(ReservationForm, self).clean()
