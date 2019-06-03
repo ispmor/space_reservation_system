@@ -68,9 +68,9 @@ class User(models.Model):
         help_text = "Is User allowed to create a reservation"
     )
     groups = (
-        ('Student', 'Student'),
-        ('Lecturer', 'Lecturer'),
-        ('External', 'External'),
+        ('s', 'Student'),
+        ('l', 'Lecturer'),
+        ('e', 'External'),
     )
     group = models.CharField(
         max_length = 1,

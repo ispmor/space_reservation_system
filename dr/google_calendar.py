@@ -38,7 +38,7 @@ class Calendar:
         event = {
           'summary': summary,
           'location': 'CZIiT',
-          'description': 'SGM UniStartApp 19L',
+          'description': 'Rezerwacja',
           'start': {
             'dateTime': start_date,
             'timeZone': 'Europe/Warsaw',

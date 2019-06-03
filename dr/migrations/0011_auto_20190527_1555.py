@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='user',
             name='group',
-            field=models.CharField(blank=True, choices=[('Student', 'Student'), ('Lecturer', 'Lecturer'), ('External', 'External')], help_text='To which group does User qualify', max_length=1),
+            field=models.CharField(blank=True, choices=[('s', 'Student'), ('l', 'Lecturer'), ('e', 'External')], help_text='To which group does User qualify', max_length=1),
         ),
     ]

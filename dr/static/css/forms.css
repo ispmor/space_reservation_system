@@ -2,7 +2,7 @@
 
 html,
 body {
-    background-image: linear-gradient(to bottom right, White, lightblue);
+    background-image: linear-gradient(to bottom right, rgb(209, 209, 209), grey);
     padding: 10px;
     font-family: 'Varela Round';
 }
