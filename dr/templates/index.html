@@ -41,6 +41,14 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   {% block content %}
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
+    <a href="../dr/reserve" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-calendar-plus-o w3-xxlarge"></i>
+    <p>RESERVE</p>
+  </a>
+    <a href="../dr/reserve" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-calendar w3-xxlarge"></i>
+    <p>RESERVATIONS</p>
+  </a>
 {% else %}
   <a href="../dr/login" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-unlock w3-xxlarge"></i>
