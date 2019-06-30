@@ -56,7 +56,6 @@ class User(models.Model):
     last_name = models.CharField(max_length=50, null=False)
     indeks = models.IntegerField(blank = True, null=True)
     email = models.CharField(max_length=150, null=False, default='x515692@nwytg.net')
-    password = models.CharField(max_length=150, null=False, default='12345678')
     PERMISSION = (
         ('b', 'Banned'),
         ('a', 'Allowed'),
