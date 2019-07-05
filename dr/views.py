@@ -47,7 +47,6 @@ def email(request):
     send_mail( subject, message, email_from, recipient_list )
     return register(request)
 
-
 def reservation(request):
     form = ReservationForm()
     if request.method == 'POST':
@@ -108,4 +107,8 @@ def register(request):
                 return HttpResponseRedirect('/dr/failed_reservation')
     else:
         form = UserCreateForm()
-    return render(request, 'register.html', {'form' : form})  
+    return render(request, 'register.html', {'form' : form})
+    
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')

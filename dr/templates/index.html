@@ -41,13 +41,18 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   {% block content %}
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
-    <a href="../dr/reserve" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <a href="../dr/reservations" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-calendar-plus-o w3-xxlarge"></i>
     <p>RESERVE</p>
   </a>
-    <a href="../dr/reserve" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <a href="../dr/reservations" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
     <i class="fa fa-calendar w3-xxlarge"></i>
     <p>RESERVATIONS</p>
+  </a>
+    </a>
+    <a href="../dr/logout" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+    <i class="fa fa-hand-spock-o w3-xxlarge"></i>
+    <p>LOGOUT</p>
   </a>
 {% else %}
   <a href="../dr/login" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
@@ -59,7 +64,6 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <p>REGISTER</p>
   </a>
 {% endif %}
-{% endblock %}
 
 
 </nav>
@@ -71,8 +75,14 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
     <a href="#about" class="w3-bar-item w3-button" style="width:25% !important">ABOUT</a>
     <a href="#photos" class="w3-bar-item w3-button" style="width:25% !important">PHOTOS</a>
     <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">CONTACT</a>
+    {% if user.is_authenticated %}
+    <a href="../dr/reservations" class="w3-bar-item w3-button" style="width:25% !important">RESERVATIONS</a>
+    <a href="../dr/logout" class="w3-bar-item w3-button" style="width:25% !important">LOGOUT</a>
+    {% else %}
     <a href="../dr/register" class="w3-bar-item w3-button" style="width:25% !important">REGISTER</a>
     <a href="../dr/login" class="w3-bar-item w3-button" style="width:25% !important">LOGIN</a>
+    {% endif %}
+    {% endblock %}
   </div>
 </div>
 
@@ -96,7 +106,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
       adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
     </p>
     
-    <div class="w3-row w3-center w3-padding-16 w3-section w3-light-grey">
+    {% comment %} <div class="w3-row w3-center w3-padding-16 w3-section w3-light-grey">
       <div class="w3-quarter w3-section">
         <span class="w3-xlarge">11+</span><br>
         Lorem Ipsum
@@ -114,7 +124,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
         Lorem Ipsum
       </div>
     </div>
-  
+   {% endcomment %}
     <div>
     <!-- Testimonials -->
     <h3 class="w3-padding-24 w3-text-light-grey">Our Reputation</h3>  
