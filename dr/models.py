@@ -97,9 +97,14 @@ class Reservation(models.Model):
         blank = True,
         help_text = "Reservation status"
     )
+    description = models.CharField(max_length=1024, default="Empty")
+    
     start_reservation = models.DateTimeField(null=True, blank=True)
 
     end_reservation = models.DateTimeField(null=True, blank=True)
+    
+
+
     
     def __str__(self):
         return f'{self.user} {self.room}'  # niejednoznaczne
