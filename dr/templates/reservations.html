@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<table id="reservations" class="w3-hoverable">
+<tr>
+<th>Room</th>
+<th>Status</th>
+<th>Start</th>
+<th>End</th>
+<th>Description</th>
+</tr>
+  {% for reservation in reservations %}
+  <tr>
+    <td>{{reservation.room}}</td>
+    <td>{{reservation.status}}</td>
+    <td>{{reservation.description}}</td>
+    <td>{{reservation.start_reservation}}</td>
+    <td>{{reservation.end_reservation}}</td>
+  </tr>
+  {% endfor %}
+</table>
+  </body>
+</html>

@@ -34,28 +34,24 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 def failed_reservation(request):
-    return render(request, 'failed_reservation.html')
-def failed_register(request):
-    return render(request, 'failed_register.html')
-# dziala, pozostało dołączyć do odpowiednich stron z odpowiednimi templatkami.
-def email(request):
+    if request.user.is_authenticated:
+        return render(request, 'failed_reservation.html')
+    else:
+        return HttpResponseRedirect('/')
 
-    subject = 'Thank you for registering to our site'
-    message = ' it  means a world to us '
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = ['startapplocha86@gmail.com',]
-    send_mail( subject, message, email_from, recipient_list )
-    return register(request)
+def failed_register(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, 'failed_register.html')
+
 
 def reservation(request):
-    form = ReservationForm()
-    if request.method == 'POST':
-        form = ReservationForm(request.POST)
-        print("jestem w post")
-        print(request.user)
-        if form.is_valid():
-            print("form is valid")
-            if request.user.is_authenticated:
+    if request.user.is_authenticated:
+        form = ReservationForm()
+        if request.method == 'POST':
+            form = ReservationForm(request.POST)
+            if form.is_valid():
                 reservation = Reservation()
                 guest = User.objects.get(username=request.user.username)
                 reservation.user = guest
@@ -63,52 +59,66 @@ def reservation(request):
                 reservation.status = 'i'
                 reservation.start_reservation = form.cleaned_data.get('start_reservation')
                 reservation.end_reservation = form.cleaned_data.get('end_reservation')
-                print("rezerwacja")
-                print(reservation.status)
-                print(reservation.start_reservation)
-                print(reservation.end_reservation)
-                print(reservation)
                 reservation.save()
                 return HttpResponseRedirect('/')
-
-            else:
-                print("niezalogowany uzytkownik")
-                #reservation = form.save()
-                #reservation.save()
-                return HttpResponseRedirect('/')
+            else :
+                return HttpResponseRedirect('/dr/failed_reservation')
         else :
-            print("szajse! form nie valid")
-            return HttpResponseRedirect('/dr/failed_reservation')
-    
-    else :
-        form = ReservationForm()
-        return render(request, 'reservation.html',{'form': form})
+            form = ReservationForm()
+            return render(request, 'reservation.html',{'form': form})
+    else:
+        return HttpResponseRedirect('/dr/login')
+        
+def reservations(request):
+    if request.user.is_authenticated:
+        user = request.user
+        reservations = Reservation.objects.all() #filter(user=user.id)
+        context = {
+            "reservations": reservations
+        }  
+        return render(request, 'reservations.html', context=context)
+    else:
+        return HttpResponseRedirect('/dr/login')
 
 def register(request):
-    if request.method == 'POST':
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            userObj = form.cleaned_data
-            username = userObj['username']
-            first_name = userObj['first_name']
-            last_name = userObj['last_name']
-            email =  userObj['email']
-            password =  userObj['password']
-            group = userObj['group']
-            user = User(username=username, first_name=first_name, last_name=last_name, email=email, group=group)
-            user_abstr = muser(username=username, first_name=first_name, last_name=last_name, email=email,  password=make_password(password))
-            if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
-                user.save()
-                user_abstr.save()
-                user = authenticate(username = username, password = password)
-                login(request, user)
-                return HttpResponseRedirect('/')
-            else:
-                return HttpResponseRedirect('/dr/failed_reservation')
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/dr')
     else:
-        form = UserCreateForm()
-    return render(request, 'register.html', {'form' : form})
+        if request.method == 'POST':
+            form = UserCreateForm(request.POST)
+            if form.is_valid():
+                userObj = form.cleaned_data
+                username = userObj['username']
+                first_name = userObj['first_name']
+                last_name = userObj['last_name']
+                email =  userObj['email']
+                password =  userObj['password']
+                group = userObj['group']
+                user = User(username=username, first_name=first_name, last_name=last_name, email=email, group=group)
+                user_abstr = muser(username=username, first_name=first_name, last_name=last_name, email=email,  password=make_password(password))
+                if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+                    user.save()
+                    user_abstr.save()
+                    user = authenticate(username = username, password = password)
+                    login(request, user)
+                    return HttpResponseRedirect('/')
+                else:
+                    return HttpResponseRedirect('/dr/failed_reservation')
+        else:
+            form = UserCreateForm()
+        return render(request, 'register.html', {'form' : form})
     
 def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect('/')
+    if request.user.is_authenticated:
+        logout(request)
+        return HttpResponseRedirect('/')
+    else:
+        return HttpResponseRedirect('/')
+
+    # def email(request):
+    #     subject = 'Thank you for registering to our site'
+    # message = ' it  means a world to us '
+    # email_from = settings.EMAIL_HOST_USER
+    # recipient_list = ['startapplocha86@gmail.com',]
+    # send_mail( subject, message, email_from, recipient_list )
+    # return register(request)
