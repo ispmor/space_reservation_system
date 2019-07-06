@@ -34,11 +34,11 @@ class Calendar:
         self.creds = creds
         self.service = build('calendar', 'v3', credentials=creds)
 
-    def addEvent(self, summary, start_date, end_date):
+    def addEvent(self, summary, start_date, end_date, description):
         event = {
           'summary': summary,
           'location': 'CZIiT',
-          'description': 'Rezerwacja',
+          'description': description,
           'start': {
             'dateTime': start_date,
             'timeZone': 'Europe/Warsaw',
@@ -64,6 +64,7 @@ class Calendar:
         }
 
         event = self.service.events().insert(calendarId='primary', body=event).execute()
+        print("===========================================", event)
         print('Event created: %s' % (event.get('htmlLink')))
-
+        return event['id']
 

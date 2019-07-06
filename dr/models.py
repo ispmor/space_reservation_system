@@ -97,11 +97,13 @@ class Reservation(models.Model):
         blank = True,
         help_text = "Reservation status"
     )
-    description = models.CharField(max_length=1024, default="Empty")
+    description = models.CharField(blank=False, max_length=1024, default="I want to reserve this room because: ")
     
     start_reservation = models.DateTimeField(null=True, blank=True)
 
     end_reservation = models.DateTimeField(null=True, blank=True)
+
+    googleId = models.TextField(null=True, blank=True)
     
 
 

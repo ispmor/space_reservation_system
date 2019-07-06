@@ -34,10 +34,17 @@ class ReservationAdmin(admin.ModelAdmin):
         ed = str(obj.end_reservation)
         ed = ed[:10] + 'T' + ed[11:]
 
+        print("++++++++++++++++++++++++++++++++", obj)
+
         print(sd)
         print(ed)
-        if obj.status == 'a':
-            calendar.addEvent(summary, sd, ed)
+        if obj.status == 'a' and not obj.googleId:
+            event_id = calendar.addEvent(summary, sd, ed, obj.description)
+            obj.googleId = event_id
+            print("----", obj.googleId)
+            obj.save()
+            print("zapisano google id !!!!")
+            
         
         return super().response_post_save_change(request, obj)
 

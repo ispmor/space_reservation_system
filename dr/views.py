@@ -13,6 +13,7 @@ from .forms import UserCreateForm, ReservationForm
 from .models import User
 from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
+from datetime import datetime
 
 def index(request):
     """View function for home page of system website"""
@@ -59,6 +60,9 @@ def reservation(request):
                 reservation.status = 'i'
                 reservation.start_reservation = form.cleaned_data.get('start_reservation')
                 reservation.end_reservation = form.cleaned_data.get('end_reservation')
+                reservation.description = form.cleaned_data.get('description')
+                if not validate_reservation_date(reservation) :
+                    return HttpResponseRedirect('/dr/failed_reservation')
                 reservation.save()
                 return HttpResponseRedirect('/')
             else :
@@ -68,17 +72,38 @@ def reservation(request):
             return render(request, 'reservation.html',{'form': form})
     else:
         return HttpResponseRedirect('/dr/login')
-        
+
+def validate_reservation_date(reservation):
+    reservation_list = Reservation.objects.filter(room=reservation.room, status='a').order_by("-start_reservation")
+    
+    if 0 < len(reservation_list) <= 25 :
+        number_of_checked_reservations = len(reservation_list) -1
+    elif len(reservation_list) > 0 :
+        number_of_checked_reservations = 25
+    else:
+        number_of_checked_reservations = 0
+
+    for r in reservation_list[: number_of_checked_reservations]:
+        print("=======", r.start_reservation, reservation.start_reservation)
+        print("+++++++", r.end_reservation, reservation.end_reservation )
+        if r.start_reservation < reservation.start_reservation < r.end_reservation or r.start_reservation < reservation.end_reservation < r.end_reservation :
+            return False
+    
+    return True
+
+            
 def reservations(request):
     if request.user.is_authenticated:
         user = request.user
-        reservations = Reservation.objects.all() #filter(user=user.id)
+        reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id)
         context = {
             "reservations": reservations
         }  
         return render(request, 'reservations.html', context=context)
     else:
         return HttpResponseRedirect('/dr/login')
+
+
 
 def register(request):
     if request.user.is_authenticated:
