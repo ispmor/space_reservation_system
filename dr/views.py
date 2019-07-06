@@ -93,6 +93,8 @@ def validate_reservation_date(reservation):
 
             
 def reservations(request):
+    if request.GET.get('deleteButton'):
+        print("cos trzeba usunac ale nie mysle juz za bardzo")
     if request.user.is_authenticated:
         user = request.user
         reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id)

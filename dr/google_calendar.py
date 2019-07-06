@@ -68,3 +68,8 @@ class Calendar:
         print('Event created: %s' % (event.get('htmlLink')))
         return event['id']
 
+    def deleteEvent(self,eventId):
+        deleted = self.service.events().delete(calendarId='primary', eventId=eventId).execute()
+        print('-------------?', deleted)
+
+
