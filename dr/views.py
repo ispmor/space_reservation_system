@@ -116,7 +116,8 @@ def reservations(request):
                  calendar = Calendar()
                  calendar.deleteEvent(instance[0].googleId)
              print("---- deleting ----",id)
-             instance.delete()  
+             instance.delete()
+            return HttpResponseRedirect('/dr/reservations')
         return render(request, 'reservations.html', context=context)
     else:
         return HttpResponseRedirect('/dr/login')
