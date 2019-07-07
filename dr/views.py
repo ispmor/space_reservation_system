@@ -120,7 +120,7 @@ def reservations(request):
 
 
 def register(request):
-    template_name = "registration/register.html"
+    template_name = "register.html"
     if request.user.is_authenticated:
         return HttpResponseRedirect('/dr')
     else:
@@ -155,13 +155,13 @@ def logout_view(request):
     else:
         return HttpResponseRedirect('/')
 
-    # def email(request):
-    #     subject = 'Thank you for registering to our site'
-    # message = ' it  means a world to us '
-    # email_from = settings.EMAIL_HOST_USER
-    # recipient_list = ['startapplocha86@gmail.com',]
-    # send_mail( subject, message, email_from, recipient_list )
-    # return register(request)
+def email(request):
+    subject = 'Thank you for registering to our site'
+    message = ' it  means a world to us '
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['startapplocha86@gmail.com',]
+    send_mail( subject, message, email_from, recipient_list )
+    return register(request)
 
 def clear_users(request):
     User.objects.all().delete()

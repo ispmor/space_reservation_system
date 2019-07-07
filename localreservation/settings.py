@@ -72,6 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'localreservation.wsgi.application'
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL= '/dr/login'
 
 
 # Database
@@ -125,8 +126,8 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/dr/reservation/'
 # to send mails
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
