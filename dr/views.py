@@ -19,14 +19,11 @@ from datetime import datetime, timedelta
 from.google_calendar import Calendar
 
 def index(request):
-    """View function for home page of system website"""
-
     #Generate counts of some of the main objects
     num_rooms = Room.objects.all().count()
     num_reservations = Reservation.objects.all().count()
     num_users = User.objects.all().count()
 
-    # Available rooms ( status = 'a')
     num_rooms_available = Room.objects.filter(status='a').count()
 
     context = {
@@ -112,10 +109,8 @@ def reservations(request):
 
             if now + timedelta(hours=24) <= start: 
              if instance[0].googleId:
-                 print("---- deletin - googleId ----", instance[0].googleId)
                  calendar = Calendar()
                  calendar.deleteEvent(instance[0].googleId)
-             print("---- deleting ----",id)
              instance.delete()
             return HttpResponseRedirect('/dr/reservations')
         return render(request, 'reservations.html', context=context)
@@ -125,6 +120,7 @@ def reservations(request):
 
 
 def register(request):
+    template_name = "registration/register.html"
     if request.user.is_authenticated:
         return HttpResponseRedirect('/dr')
     else:
@@ -147,10 +143,10 @@ def register(request):
                     login(request, user)
                     return HttpResponseRedirect('/')
                 else:
-                    return HttpResponseRedirect('/dr/failed_reservation')
+                    return HttpResponseRedirect('/dr/failed_register')
         else:
             form = UserCreateForm()
-        return render(request, 'register.html', {'form' : form})
+        return render(request, template_name, {'form' : form})
     
 def logout_view(request):
     if request.user.is_authenticated:

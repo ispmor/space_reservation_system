@@ -126,11 +126,14 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/dr/reservation/'
 # to send mails
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'startapplocha86@gmail.com'
 EMAIL_HOST_PASSWORD = 'unistartapp1!'
+DEFAULT_FROM_EMAIL = 'testing@testing.com'
 
 BOOTSTRAP4 = {
     'include_jquery': True,
