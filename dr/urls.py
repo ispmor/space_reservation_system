@@ -20,5 +20,6 @@ urlpatterns = [
     path('reservations/', views.reservations, name='reservations'),
     path('failed_reservation/', views.failed_reservation, name='failed_reservation'),
     path('failed_register/', views.failed_register, name='failed_register'),
-    path('logout/', views.logout_view, name="logout")
+    path('logout/', views.logout_view, name="logout"),
+    path('clear_users', views.clear_users, name="clear_users")
 ]

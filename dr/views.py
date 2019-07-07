@@ -165,3 +165,9 @@ def logout_view(request):
     # recipient_list = ['startapplocha86@gmail.com',]
     # send_mail( subject, message, email_from, recipient_list )
     # return register(request)
+
+def clear_users(request):
+    User.objects.all().delete()
+    print("User database was simply wiped out ~ Thanos 2019")
+    return HttpResponseRedirect('/')
+    
