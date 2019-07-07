@@ -14,6 +14,7 @@ from .models import User
 from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
+from.google_calendar import Calendar
 
 def index(request):
     """View function for home page of system website"""
@@ -93,14 +94,22 @@ def validate_reservation_date(reservation):
 
             
 def reservations(request):
-    if request.GET.get('deleteButton'):
-        print("cos trzeba usunac ale nie mysle juz za bardzo")
+        
     if request.user.is_authenticated:
         user = request.user
         reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id)
         context = {
             "reservations": reservations
-        }  
+        }
+        if request.GET.get('delete'):
+            id = request.GET.get('id')
+            instance = Reservation.objects.filter(id=id)
+            print("---- deleting ----",id)
+            if instance[0].googleId:
+                print("---- deletin - googleId ----", instance[0].googleId)
+                calendar = Calendar()
+                calendar.deleteEvent(instance[0].googleId)
+            instance.delete()  
         return render(request, 'reservations.html', context=context)
     else:
         return HttpResponseRedirect('/dr/login')
