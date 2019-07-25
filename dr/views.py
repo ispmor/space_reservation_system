@@ -19,13 +19,10 @@ from datetime import datetime, timedelta
 from.google_calendar import Calendar
 
 def index(request):
-    #Generate counts of some of the main objects
     num_rooms = Room.objects.all().count()
     num_reservations = Reservation.objects.all().count()
     num_users = User.objects.all().count()
-
     num_rooms_available = Room.objects.filter(status='a').count()
-
     context = {
         'num_rooms' : num_rooms,
         'num_reservations': num_reservations,
@@ -82,18 +79,15 @@ def validate_reservation_date(reservation):
         number_of_checked_reservations = 25
     else:
         number_of_checked_reservations = 0
-
     for r in reservation_list[: number_of_checked_reservations]:
         print("=======", r.start_reservation, reservation.start_reservation)
         print("+++++++", r.end_reservation, reservation.end_reservation )
         if r.start_reservation < reservation.start_reservation < r.end_reservation or r.start_reservation < reservation.end_reservation < r.end_reservation :
             return False
-    
     return True
 
             
 def reservations(request):
-        
     if request.user.is_authenticated:
         user = request.user
         reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id)
@@ -103,10 +97,8 @@ def reservations(request):
         if request.GET.get('delete'):
             id = request.GET.get('id')
             instance = Reservation.objects.filter(id=id)
-            
             now = timezone.now()
             start = instance[0].start_reservation
-
             if now + timedelta(hours=24) <= start: 
              if instance[0].googleId:
                  calendar = Calendar()

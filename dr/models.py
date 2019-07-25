@@ -1,21 +1,16 @@
 from django.db import models
 
-# Create your models here.
-from django.urls import reverse # Used to generate URLs by reversing the URL patterns
+from django.urls import reverse
 
 class Room(models.Model):
-    """Model representing a Room but as a general object """
     name = models.CharField(max_length=200)
-
     equipement = models.TextField(max_length=1000, help_text='Enter a brief description of the room')
     capacity = models.IntegerField()
-  
     ROOM_STATUS = (
         ('i', 'In Use'),
         ('a', 'Available'),
         ('r', 'Reserved'),
     )
-
     status = models.CharField(
         max_length=1,
         choices=ROOM_STATUS,
@@ -27,10 +22,6 @@ class Room(models.Model):
     class Meta:
         ordering = ['name']
 
-    #def __str__(self):
-    #    """String for representing the Model object."""
-    #    return f'{self.id} ({self.room.name})'
-
     def __str__(self):
         """String for representing the Model object."""
         return self.name
@@ -41,14 +32,7 @@ class Room(models.Model):
 
     
 
-import uuid # Required for unique room instances
-
-#class RoomInstance(models.Model):
-#    """Model representing a specific Room """
-#    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular room across whole drimn')
-#    room = models.ForeignKey('Room', on_delete=models.SET_NULL, null=True) 
-    
-
+import uuid
 class User(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID for this particular User')
     username = models.CharField(max_length=150, null=False, default='nick')
@@ -98,15 +82,9 @@ class Reservation(models.Model):
         help_text = "Reservation status"
     )
     description = models.CharField(blank=False, max_length=1024, default="I want to reserve this room because: ")
-    
     start_reservation = models.DateTimeField(null=True, blank=True)
-
     end_reservation = models.DateTimeField(null=True, blank=True)
-
     googleId = models.TextField(null=True, blank=True)
-    
 
-
-    
     def __str__(self):
-        return f'{self.user} {self.room}'  # niejednoznaczne
+        return f'{self.user} {self.room}'

@@ -125,8 +125,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # to send mails
-# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # uncomment this line to send mails to your console 
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
