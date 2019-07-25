@@ -113,6 +113,7 @@ def reservations(request):
 
 
 def getState(r): 
+    now = timezone.now()
     if r.end_reservation < now:
         'Ended'
     elif r.start_reservation > now:
@@ -129,7 +130,7 @@ def concierge(request):
             archived = False,
             status = 'a')
         context = {
-            "reservations": reservations,
+            "reservations": zip(reservations, map(lambda r: getState(r), reservations)), # not sure why it does not work xD 
         }
         return render(request, 'concierge.html', context=context)
     else:
