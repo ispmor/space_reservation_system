@@ -61,6 +61,7 @@ class User(models.Model):
         blank = True,
         help_text = "To which group does User qualify"
     )
+    archived = models.BooleanField(blank = True, null = True, default = False)
 
     def __str__(self):
         """String for representing the Model object."""
@@ -85,6 +86,7 @@ class Reservation(models.Model):
     start_reservation = models.DateTimeField(null=True, blank=True)
     end_reservation = models.DateTimeField(null=True, blank=True)
     googleId = models.TextField(null=True, blank=True)
+    archived = models.BooleanField(blank = True, null = True, default = False)
 
     def __str__(self):
         return f'{self.user} {self.room}'

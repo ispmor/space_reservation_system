@@ -18,6 +18,8 @@ from django.contrib.auth.hashers import make_password
 from datetime import datetime, timedelta
 from.google_calendar import Calendar
 
+LOGIN_URL = '/dr/login'
+
 def index(request):
     num_rooms = Room.objects.all().count()
     num_reservations = Reservation.objects.all().count()
@@ -90,7 +92,7 @@ def validate_reservation_date(reservation):
 def reservations(request):
     if request.user.is_authenticated:
         user = request.user
-        reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id)
+        reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id, archived = False, end_reservation__gte = now - timedelta(hours = 1))
         context = {
             "reservations": reservations
         }
@@ -110,6 +112,28 @@ def reservations(request):
         return HttpResponseRedirect('/dr/login')
 
 
+def getState(r): 
+    if r.end_reservation < now:
+        'Ended'
+    elif r.start_reservation > now:
+        'Starting soon'
+    else:
+        'In progress' 
+
+def concierge(request):
+    if request.method == 'GET' and request.user.is_authenticated:
+        now = timezone.now()
+        reservations = Reservation.objects.filter(
+            start_reservation__lte = now + timedelta(hours = 24),
+            end_reservation__gte = now - timedelta(hours = 1),
+            archived = False,
+            status = 'a')
+        context = {
+            "reservations": reservations,
+        }
+        return render(request, 'concierge.html', context=context)
+    else:
+        return HttpResponseRedirect(LOGIN_URL)
 
 def register(request):
     template_name = "register.html"
