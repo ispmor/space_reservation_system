@@ -89,14 +89,14 @@ def getAvailableTime():
     for reservation in Reservation.objects.filter(room=room, start_reservation__gte=now).order_by('start_reservation'):
       print(reservation)
       if reservation.end_reservation > week_later:
-        available_periods.append((start_period, reservation.start_reservation))
+        available_periods.append({'start_availability':start_period, 'end_availability': reservation.start_reservation})
         break
       if reservation.start_reservation > week_later:
-        available_periods.append((start_period, week_later))
+        available_periods.append({'start_availability':start_period, 'end_availability': week_later})
         break
-      available_periods.append((start_period, reservation.start_reservation))
+      available_periods.append({'start_availability':start_period, 'end_availability': reservation.start_reservation})
       start_period = reservation.end_reservation
-    availability[room] = available_periods
+    availability[room.name] = available_periods
 
   print(availability)
   return availability

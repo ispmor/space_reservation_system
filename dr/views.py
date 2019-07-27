@@ -5,7 +5,7 @@ import pytz
 from django.utils import timezone
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -17,6 +17,7 @@ from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
 from datetime import datetime, timedelta
 from.google_calendar import Calendar, getAvailableTime
+
 
 LOGIN_URL = '/dr/login'
 
@@ -191,5 +192,4 @@ def newCalendar(request, summary):
     return HttpResponseRedirect('/')
 
 def get_availale_time(request):
-    getAvailableTime()
-    return HttpResponseRedirect('/')
+    return JsonResponse(getAvailableTime())
