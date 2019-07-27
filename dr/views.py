@@ -90,6 +90,7 @@ def validate_reservation_date(reservation):
 
             
 def reservations(request):
+    now = timezone.now()
     if request.user.is_authenticated:
         user = request.user
         reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id, archived = False, end_reservation__gte = now - timedelta(hours = 1))
@@ -99,7 +100,6 @@ def reservations(request):
         if request.GET.get('delete'):
             id = request.GET.get('id')
             instance = Reservation.objects.filter(id=id)
-            now = timezone.now()
             start = instance[0].start_reservation
             if now + timedelta(hours=24) <= start: 
              if instance[0].googleId:
