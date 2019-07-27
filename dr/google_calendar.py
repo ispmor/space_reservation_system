@@ -5,6 +5,8 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from .models import Reservation, Room
+import django.utils.timezone as timezone
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 class Calendar:
@@ -26,6 +28,7 @@ class Calendar:
                 pickle.dump(creds, token)
         self.creds = creds
         self.service = build('calendar', 'v3', credentials=creds)
+        self.calendars = ['']
     def addEvent(self, summary, start_date, end_date, description):
         event = {
           'summary': summary,
@@ -60,5 +63,42 @@ class Calendar:
     def deleteEvent(self,eventId):
         deleted = self.service.events().delete(calendarId='primary', eventId=eventId).execute()
         print('-------------?', deleted)
+
+    def insertNewCalendar(self, summary):
+        print("build new calendar")
+        calendar = {
+          'summary': summary,
+          'timeZone': 'Europe/Warsaw'
+        }
+
+        created_calendar = self.service.calendars().insert(body=calendar).execute()
+        self.calendars.append(created_calendar)
+        calendar_list = self.service.calendarList().list(pageToken=None).execute()
+        for calendar_list_entry in calendar_list['items']:
+          print(calendar_list_entry['summary'])
+
+
+def getAvailableTime():
+  now = timezone.now()
+  week_later = now + datetime.timedelta(days=7)
+  availability = dict()
+  for room in Room.objects.all():
+    available_periods = list()
+    start_period = now
+    print(room)
+    for reservation in Reservation.objects.filter(room=room, start_reservation__gte=now).order_by('start_reservation'):
+      print(reservation)
+      if reservation.end_reservation > week_later:
+        available_periods.append((start_period, reservation.start_reservation))
+        break
+      if reservation.start_reservation > week_later:
+        available_periods.append((start_period, week_later))
+        break
+      available_periods.append((start_period, reservation.start_reservation))
+      start_period = reservation.end_reservation
+    availability[room] = available_periods
+
+  print(availability)
+  return availability
 
 

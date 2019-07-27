@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
+from dr import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('dr/', include('dr.urls')),
+    path('admin/insertNewCalendar/<str:summary>', views.newCalendar)
     ]
 #Add URL maps to redirect the base URL to our application
 from django.views.generic import RedirectView

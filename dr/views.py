@@ -16,7 +16,7 @@ from .models import User
 from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
 from datetime import datetime, timedelta
-from.google_calendar import Calendar
+from.google_calendar import Calendar, getAvailableTime
 
 LOGIN_URL = '/dr/login'
 
@@ -184,4 +184,12 @@ def clear_users(request):
     User.objects.all().delete()
     print("User database was simply wiped out ~ Thanos 2019")
     return HttpResponseRedirect('/')
-    
+
+def newCalendar(request, summary):
+    calendar = Calendar()
+    calendar.insertNewCalendar(summary)
+    return HttpResponseRedirect('/')
+
+def get_availale_time(request):
+    getAvailableTime()
+    return HttpResponseRedirect('/')
