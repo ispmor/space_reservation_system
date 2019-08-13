@@ -19,12 +19,12 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dr/', include('dr.urls')),
+    path('', include('dr.urls')),
     ]
 #Add URL maps to redirect the base URL to our application
 from django.views.generic import RedirectView
 urlpatterns += [
-    path('', RedirectView.as_view(url='/dr/', permanent=True)),
+    path('', RedirectView.as_view(url='/', permanent=True)),
 ]
 
 # Use static() to add url mapping to serve static files during development (only)

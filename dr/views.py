@@ -18,7 +18,6 @@ from django.contrib.auth.hashers import make_password
 from datetime import datetime, timedelta
 from.google_calendar import Calendar
 
-LOGIN_URL = '/dr/login'
 
 def index(request):
     num_rooms = Room.objects.all().count()
@@ -37,11 +36,11 @@ def failed_reservation(request):
     if request.user.is_authenticated:
         return render(request, 'failed_reservation.html')
     else:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
 
 def failed_register(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
     else:
         return render(request, 'failed_register.html')
 
@@ -61,16 +60,16 @@ def reservation(request):
                 reservation.end_reservation = form.cleaned_data.get('end_reservation')
                 reservation.description = form.cleaned_data.get('description')
                 if not validate_reservation_date(reservation) :
-                    return HttpResponseRedirect('/dr/failed_reservation')
+                    return HttpResponseRedirect(settings.FAILED_RESERVATION_URL)
                 reservation.save()
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
             else :
-                return HttpResponseRedirect('/dr/failed_reservation')
+                return HttpResponseRedirect(settings.FAILED_RESERVATION_URL)
         else :
             form = ReservationForm()
             return render(request, 'reservation.html',{'form': form})
     else:
-        return HttpResponseRedirect('/dr/login')
+        return HttpResponseRedirect(settings.LOGIN_URL)
 
 def validate_reservation_date(reservation):
     reservation_list = Reservation.objects.filter(room=reservation.room, status='a').order_by("-start_reservation")
@@ -91,6 +90,7 @@ def validate_reservation_date(reservation):
             
 def reservations(request):
     if request.user.is_authenticated:
+        now = timezone.now()
         user = request.user
         reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id, archived = False, end_reservation__gte = now - timedelta(hours = 1))
         context = {
@@ -106,10 +106,10 @@ def reservations(request):
                  calendar = Calendar()
                  calendar.deleteEvent(instance[0].googleId)
              instance.delete()
-            return HttpResponseRedirect('/dr/reservations')
+            return HttpResponseRedirect(settings.RESERVATION_URL)
         return render(request, 'reservations.html', context=context)
     else:
-        return HttpResponseRedirect('/dr/login')
+        return HttpResponseRedirect(settings.LOGIN_URL)
 
 
 def getState(r): 
@@ -134,12 +134,12 @@ def concierge(request):
         }
         return render(request, 'concierge.html', context=context)
     else:
-        return HttpResponseRedirect(LOGIN_URL)
+        return HttpResponseRedirect(settings.LOGIN_URL)
 
 def register(request):
     template_name = "register.html"
     if request.user.is_authenticated:
-        return HttpResponseRedirect('/dr')
+        return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
     else:
         if request.method == 'POST':
             form = UserCreateForm(request.POST)
@@ -158,9 +158,9 @@ def register(request):
                     user_abstr.save()
                     user = authenticate(username = username, password = password)
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
                 else:
-                    return HttpResponseRedirect('/dr/failed_register')
+                    return HttpResponseRedirect(settings.FAILED_REGISTER_URL)
         else:
             form = UserCreateForm()
         return render(request, template_name, {'form' : form})
@@ -168,9 +168,9 @@ def register(request):
 def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
     else:
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
 
 def email(request):
     subject = 'Thank you for registering to our site'
@@ -183,5 +183,5 @@ def email(request):
 def clear_users(request):
     User.objects.all().delete()
     print("User database was simply wiped out ~ Thanos 2019")
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
     
