@@ -1,3 +1,5 @@
+	{% load static %}
+	{% load widget_tweaks %}
 <head>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -6,9 +8,38 @@
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	{% load static %}
 	<script src="{% static 'js/forms.js' %}"></script>
 	<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<style>
+* {
+  box-sizing: border-box;
+}
+input[type=text] {
+  width: 130px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('searchicon.png');
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+select {
+  width: 100%;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+}
+</style>
 </head>
 
 
@@ -22,7 +53,7 @@
 				<h2>Register</h2>
 				<form method="post" class="text-left" id="login-form">
 					{% csrf_token %}
-					{{ form.as_p }}
+					{{ form.as_p}}
 					<button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
 					<div class="etc-login-form">
 						<p>Already a member? <a href="../login">Sign in!</a></p>
