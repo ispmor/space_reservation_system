@@ -5,7 +5,7 @@ import pytz
 from django.utils import timezone
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -16,7 +16,8 @@ from .models import User
 from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
 from datetime import datetime, timedelta
-from.google_calendar import Calendar
+from.google_calendar import Calendar, getAvailableTime
+
 
 
 def index(request):
@@ -89,6 +90,7 @@ def validate_reservation_date(reservation):
 
             
 def reservations(request):
+    now = timezone.now()
     if request.user.is_authenticated:
         now = timezone.now()
         user = request.user
@@ -99,7 +101,6 @@ def reservations(request):
         if request.GET.get('delete'):
             id = request.GET.get('id')
             instance = Reservation.objects.filter(id=id)
-            now = timezone.now()
             start = instance[0].start_reservation
             if now + timedelta(hours=24) <= start: 
              if instance[0].googleId:
@@ -184,4 +185,11 @@ def clear_users(request):
     User.objects.all().delete()
     print("User database was simply wiped out ~ Thanos 2019")
     return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
-    
+
+def newCalendar(request, summary):
+    calendar = Calendar()
+    calendar.insertNewCalendar(summary)
+    return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
+
+def get_availale_time(request):
+    return JsonResponse(getAvailableTime())

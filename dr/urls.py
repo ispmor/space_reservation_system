@@ -17,6 +17,7 @@ urlpatterns = [
     path(settings.PASSWORD_RESET_URL, auth_views.PasswordResetView.as_view(template_name="password_reset_form.html", email_template_name="password_reset_email.html"), name='password_reset'),
     path(settings.PASSWORD_RESET_URL + '/done/', auth_views.PasswordResetDoneView.as_view(template_name="password_reset_done.html"), name='password_reset_done'),
     path('password_reset_confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="password_reset_confirm.html"), name='password_reset_confirm'),
+<<<<<<< HEAD
     path(settings.PASSWORD_RESET_URL + '/complete/', auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_complete.html"), name='password_reset_complete'),
     path(settings.RESERVATION_URL, views.reservation, name='reservation'),
     path(settings.RESERVATIONS_URL, views.reservations, name='reservations'),
@@ -25,4 +26,15 @@ urlpatterns = [
     path(settings.FAILED_REGISTER_URL, views.failed_register, name='failed_register'),
     path(settings.LOGOUT_URL, views.logout_view, name="logout"),
     path('clear_users', views.clear_users, name="clear_users")
+=======
+    path('password_reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_complete.html"), name='password_reset_complete'),
+    path('reservation/', views.reservation, name='reservation'),
+    path('reservations/', views.reservations, name='reservations'),
+    path('concierge/', views.concierge, name='concierge'),
+    path('failed_reservation/', views.failed_reservation, name='failed_reservation'),
+    path('failed_register/', views.failed_register, name='failed_register'),
+    path('logout/', views.logout_view, name="logout"),
+    path('clear_users', views.clear_users, name="clear_users"),
+    path('get_available_dates/', views.get_availale_time, name='get_abailable_time')
+>>>>>>> master
 ]
