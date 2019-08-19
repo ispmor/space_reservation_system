@@ -1,4 +1,4 @@
-from dr.models import Room, Reservation, User
+from dr.models import Room, Reservation, User, ContactRequest
 from django.core.mail import send_mail
 from django.conf import settings
 import pytz
@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import UserCreateForm, ReservationForm
+from .forms import UserCreateForm, ReservationForm, ContactForm
 from .models import User
 from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
@@ -21,17 +21,18 @@ from.google_calendar import Calendar, getAvailableTime
 
 
 def index(request):
-    num_rooms = Room.objects.all().count()
-    num_reservations = Reservation.objects.all().count()
-    num_users = User.objects.all().count()
-    num_rooms_available = Room.objects.filter(status='a').count()
-    context = {
-        'num_rooms' : num_rooms,
-        'num_reservations': num_reservations,
-        'num_users' : num_users,
-        'num_rooms_available' : num_rooms_available, 
-    }
-    return render(request, 'index.html', context=context)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = ContactForm(request.POST)
+            if form.is_valid():
+                contact_request = ContactRequest(title = form.cleaned_data['title'], content = form.cleaned_data['content'], email = request.user.email)
+                print(contact_request)
+                contact_request.save()
+                send_mail(contact_request.title, contact_request.content, contact_request.email,  [settings.EMAIL_HOST_USER, contact_request.email])
+        else:
+            form  = ContactForm()
+            return render(request, 'index.html', {'form': form})
+    return render(request, 'index.html')
 
 def failed_reservation(request):
     if request.user.is_authenticated:

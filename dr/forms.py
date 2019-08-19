@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Reservation
+from .models import ContactRequest
 from datetime import datetime
 
 class UserCreateForm(forms.ModelForm):
@@ -40,5 +41,13 @@ class ReservationForm(forms.ModelForm):
 
         return cleaned_data
     
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = ContactRequest
+        fields = ('title', 'content')
+    def title(self):
+         self.data['title']
+    def content(self):
+         self.data['content']
 
   

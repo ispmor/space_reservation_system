@@ -171,7 +171,13 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   </div>
 
   <!-- Contact Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
+     <div class='contact-form'> <h2>Contact Form</h2>
+    <form method="POST" class="form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Save</button>
+    </form>
+    </div>
+  <div class="w3-padding-64 w3-content w3-text-grey" id="contact" style='display: inline'>
     <h2 class="w3-text-light-grey">Contact Us</h2>
     <hr style="width:200px" class="w3-opacity">
 
