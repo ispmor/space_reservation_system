@@ -1,15 +1,24 @@
 from django.urls import path, include
 from django.contrib import admin
+
+from django.urls import reverse_lazy
+from django.views import generic
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from django.conf.urls import url
 from . import views
 from django.contrib.auth import views as auth_views
 from django.conf import settings
+from bootstrap_modal_forms.generic import (BSModalLoginView,
+                                           BSModalCreateView,
+                                           BSModalUpdateView,
+                                           BSModalReadView,
+                                           BSModalDeleteView)
 
 urlpatterns = [
     path(settings.INDEX_URL, views.index, name='index'),
-    path(settings.LOGIN_URL, LoginView.as_view(template_name="login.html"), name="login"),
+    # path(settings.LOGIN_URL, LoginView.as_view(template_name="login.html"), name="login"),
     path(settings.REGISTER_URL, views.register, name='register'),
     path('email/', views.email, name='email'),
     path(settings.PASSWORD_CHANGE_URL, auth_views.PasswordChangeView.as_view(template_name="password_change_form.html"), name='password_change'),
@@ -25,5 +34,7 @@ urlpatterns = [
     path(settings.FAILED_REGISTER_URL, views.failed_register, name='failed_register'),
     path(settings.LOGOUT_URL, views.logout_view, name="logout"),
     path('clear_users', views.clear_users, name="clear_users"),
-    path('get_available_dates/', views.get_availale_time, name='get_abailable_time')
+    path('get_available_dates/', views.get_availale_time, name='get_abailable_time'),
+    path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('login/', views.CustomLoginView.as_view(), name='login'),
 ]

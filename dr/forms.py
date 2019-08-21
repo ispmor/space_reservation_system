@@ -1,9 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Reservation
 from .models import ContactRequest
 from datetime import datetime
+from django import forms
+from bootstrap_modal_forms.mixins import PopRequestMixin, CreateUpdateAjaxMixin
+from bootstrap_modal_forms.forms import BSModalForm
 
 class UserCreateForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -46,4 +49,21 @@ class ContactForm(forms.ModelForm):
         model = ContactRequest
         fields = ('title', 'content', 'email')
 
-  
+class ModalReservationForm(BSModalForm):
+    class Meta:
+        model = Reservation
+        # exclude = ['statu']
+        fields = ['room']
+
+
+class CustomUserCreationForm(PopRequestMixin, CreateUpdateAjaxMixin,
+                             UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password']

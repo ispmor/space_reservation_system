@@ -8,17 +8,36 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
-from django.views import generic
-from .forms import UserCreateForm, ReservationForm, ContactForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .forms import UserCreateForm, ReservationForm, ContactForm, CustomUserCreationForm, CustomAuthenticationForm
 from .models import User
 from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
 from datetime import datetime, timedelta
 from.google_calendar import Calendar, getAvailableTime
+from django.urls import reverse_lazy
+from django.views import generic
+
+from bootstrap_modal_forms.generic import (BSModalLoginView,
+                                           BSModalCreateView,
+                                           BSModalUpdateView,
+                                           BSModalReadView,
+                                           BSModalDeleteView)
 
 
+
+class SignUpView(BSModalCreateView):
+    form_class = CustomUserCreationForm
+    template_name = 'examples/signup.html'
+    success_message = 'Success: Sign up succeeded. You can now Log in.'
+    success_url = reverse_lazy('index')
+
+
+class CustomLoginView(BSModalLoginView):
+    authentication_form = CustomAuthenticationForm
+    template_name = 'examples/login.html'
+    success_message = 'Success: You were successfully logged in.'
+    success_url = reverse_lazy('/')
 
 def index(request):
     base_form  = ContactForm()
@@ -36,6 +55,13 @@ def index(request):
     else:
         return render(request, 'index.html', {'form': base_form})
     return render(request, 'index.html', {'form': base_form, 'message': 'You successfuly contacted us! Now wait for an answer :)'})
+
+
+def login_modal(request):
+    if not request.user.isAuthenticated:
+        return {'login': AuthenticationForm()}
+    return {}
+
 
 def failed_reservation(request):
     if request.user.is_authenticated:
