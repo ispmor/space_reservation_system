@@ -10,11 +10,8 @@
 <style>
 body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 .w3-row-padding img {margin-bottom: 12px}
-/* Set the width of the sidebar to 120px */
 .w3-sidebar {width: 120px;background: #222;}
-/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
 #main {margin-left: 120px}
-/* Remove margins from "page content" on small screens */
 @media only screen and (max-width: 600px) {#main {margin-left: 0}}
 </style>
 <body class="w3-black">
@@ -100,6 +97,7 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 <!-- Page Content -->
 <div class="w3-padding-large" id="main">
   <!-- Header/Home -->
+  <h2> {% csrf_token %}{{ message }}</h2>
   <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
     <h1 class="w3-jumbo"><span class="w3-hide-small">We're</span> DRIMn.</h1>
     <p>Make this happen.</p>
@@ -171,12 +169,6 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
   </div>
 
   <!-- Contact Section -->
-     <div class='contact-form'> <h2>Contact Form</h2>
-    <form method="POST" class="form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="button">Save</button>
-    </form>
-    </div>
   <div class="w3-padding-64 w3-content w3-text-grey" id="contact" style='display: inline'>
     <h2 class="w3-text-light-grey">Contact Us</h2>
     <hr style="width:200px" class="w3-opacity">
@@ -185,7 +177,17 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
       <p><a href = https://www.google.pl/maps/place/Centrum+Zarządzania+Innowacjami+i+Transferem+Technologii+Politechniki+Warszawskiej/@52.218003,21.0080783,17z/data=!3m1!4b1!4m5!3m4!1s0x471ecce9a8a6c849:0xc43192b0da36bd37!8m2!3d52.218003!4d21.010267 target="_blank"><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i>Warsaw, Poland</a></p>
       <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Phone: 123456789</p>
       <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i>Email: startapplocha86@mail.com</p>
-  
+
+     <div class='contact-form'> <h2>Contact Form</h2>
+    <form method="POST" class="form">{% csrf_token %}
+        {% if user.is_authenticated is False %}
+        <tr> <td> Email: {{ form.email }} </td> </tr>
+        {% endif %}
+        <tr> <td> Title: {{ form.title }} </td> </tr>
+        <tr> <td> Content: {{ form.content }} </td> </tr>
+        <button type="submit" class="button">Save</button>
+    </form>
+    </div>
     <!-- Footer -->
   <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
    <a href="https://www.facebook.com/cziitt/" target="_blank"> <i class="fa fa-facebook-official w3-hover-opacity"></i></a>

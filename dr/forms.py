@@ -44,10 +44,6 @@ class ReservationForm(forms.ModelForm):
 class ContactForm(forms.ModelForm):
     class Meta:
         model = ContactRequest
-        fields = ('title', 'content')
-    def title(self):
-         self.data['title']
-    def content(self):
-         self.data['content']
+        fields = ('title', 'content', 'email')
 
   

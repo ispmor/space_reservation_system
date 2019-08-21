@@ -21,18 +21,21 @@ from.google_calendar import Calendar, getAvailableTime
 
 
 def index(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            form = ContactForm(request.POST)
-            if form.is_valid():
+    base_form  = ContactForm()
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
                 contact_request = ContactRequest(title = form.cleaned_data['title'], content = form.cleaned_data['content'], email = request.user.email)
-                print(contact_request)
-                contact_request.save()
-                send_mail(contact_request.title, contact_request.content, contact_request.email,  [settings.EMAIL_HOST_USER, contact_request.email])
-        else:
-            form  = ContactForm()
-            return render(request, 'index.html', {'form': form})
-    return render(request, 'index.html')
+            elif form.cleaned_data['email'] != '':
+                contact_request = ContactRequest(title = form.cleaned_data['title'], content = form.cleaned_data['content'], email = form.cleaned_data['email'])
+            else:
+                return render(request, 'index.html', {'form': base_form, 'message': 'Mail not provided'})
+            contact_request.save()
+            send_mail(contact_request.title, contact_request.content, contact_request.email,  [settings.EMAIL_HOST_USER, contact_request.email])
+    else:
+        return render(request, 'index.html', {'form': base_form})
+    return render(request, 'index.html', {'form': base_form, 'message': 'You successfuly contacted us! Now wait for an answer :)'})
 
 def failed_reservation(request):
     if request.user.is_authenticated:
