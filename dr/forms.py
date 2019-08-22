@@ -26,7 +26,7 @@ class UserCreateForm(forms.ModelForm):
 class ReservationForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        #exclude = ['user', 'id', 'indeks', 'status']
+        # exclude = ['user', 'id', 'indeks', 'status']
         room = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Password'}))
         fields = ['room', 'start_reservation', 'end_reservation', 'description']
     def __init__(self, *args, **kwargs):

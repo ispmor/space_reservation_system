@@ -28,23 +28,31 @@ from bootstrap_modal_forms.generic import (BSModalLoginView,
 
 class SignUpView(BSModalCreateView):
     form_class = CustomUserCreationForm
-    template_name = 'examples/signup.html'
+    template_name = 'modals/signup.html'
     success_message = 'Success: Sign up succeeded. You can now Log in.'
     success_url = reverse_lazy('index')
 
 
 class CustomLoginView(BSModalLoginView):
     authentication_form = CustomAuthenticationForm
-    template_name = 'examples/login.html'
+    template_name = 'modals/login.html'
     success_message = 'Success: You were successfully logged in.'
     success_url = reverse_lazy('/')
 
 class Index(generic.ListView):
-    model = Reservation
-    context_object_name = 'reservations'
-    template_name = 'index.html'
+    def get(self, request):
+        template_name = 'index.html'
+        now = timezone.now()
+        if (request.user.is_authenticated):
+            user = request.user
+            reservations = Reservation.objects.filter(user=User.objects.get(username=user.username).id, archived = False, end_reservation__gte = now - timedelta(hours = 1))
+            context = {"reservations": reservations}
+            return render(request, template_name, context)
+        return render(request, template_name)
+
+
 class ReservationCreateView(BSModalCreateView):
-    template_name = 'examples/create_reservation.html'
+    template_name = 'modals/create_reservation.html'
     form_class = ReservationForm
     success_message = 'Success: Reservation was created.'
     success_url = reverse_lazy('index')
@@ -52,7 +60,7 @@ class ReservationCreateView(BSModalCreateView):
 
 class ReservationUpdateView(BSModalUpdateView):
     model = Reservation
-    template_name = 'examples/update_reservation.html'
+    template_name = 'modals/update_reservation.html'
     form_class = ReservationForm
     success_message = 'Success: Reservation was updated.'
     success_url = reverse_lazy('index')
@@ -60,12 +68,12 @@ class ReservationUpdateView(BSModalUpdateView):
 
 class ReservationReadView(BSModalReadView):
     model = Reservation
-    template_name = 'examples/read_reservation.html'
+    template_name = 'modals/read_reservation.html'
 
 
 class ReservationDeleteView(BSModalDeleteView):
     model = Reservation
-    template_name = 'examples/delete_reservation.html'
+    template_name = 'modals/delete_reservation.html'
     success_message = 'Success: Reservation was deleted.'
     success_url = reverse_lazy('index')
 
@@ -88,12 +96,6 @@ def index(request):
     else:
         return render(request, 'index.html', {'form': base_form})
     return render(request, 'index.html', {'form': base_form, 'message': 'You successfuly contacted us! Now wait for an answer :)'})
-
-
-def login_modal(request):
-    if not request.user.isAuthenticated:
-        return {'login': AuthenticationForm()}
-    return {}
 
 
 def failed_reservation(request):
