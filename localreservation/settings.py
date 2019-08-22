@@ -75,7 +75,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'localreservation.wsgi.application'
 
 INDEX_URL = ''
-INDEX_REDIRECT_URL = '/' + INDEX_URL
+INDEX_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = INDEX_REDIRECT_URL
 LOGIN_URL= 'login/'
 LOGOUT_URL= 'logout/'

@@ -39,6 +39,39 @@ class CustomLoginView(BSModalLoginView):
     success_message = 'Success: You were successfully logged in.'
     success_url = reverse_lazy('/')
 
+class Index(generic.ListView):
+    model = Reservation
+    context_object_name = 'reservations'
+    template_name = 'index.html'
+class ReservationCreateView(BSModalCreateView):
+    template_name = 'examples/create_reservation.html'
+    form_class = ReservationForm
+    success_message = 'Success: Reservation was created.'
+    success_url = reverse_lazy('index')
+
+
+class ReservationUpdateView(BSModalUpdateView):
+    model = Reservation
+    template_name = 'examples/update_reservation.html'
+    form_class = ReservationForm
+    success_message = 'Success: Reservation was updated.'
+    success_url = reverse_lazy('index')
+
+
+class ReservationReadView(BSModalReadView):
+    model = Reservation
+    template_name = 'examples/read_reservation.html'
+
+
+class ReservationDeleteView(BSModalDeleteView):
+    model = Reservation
+    template_name = 'examples/delete_reservation.html'
+    success_message = 'Success: Reservation was deleted.'
+    success_url = reverse_lazy('index')
+
+
+
+
 def index(request):
     base_form  = ContactForm()
     if request.method == 'POST':

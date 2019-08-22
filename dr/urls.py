@@ -17,7 +17,7 @@ from bootstrap_modal_forms.generic import (BSModalLoginView,
                                            BSModalDeleteView)
 
 urlpatterns = [
-    path(settings.INDEX_URL, views.index, name='index'),
+    path('', views.Index.as_view(), name='index'),
     # path(settings.LOGIN_URL, LoginView.as_view(template_name="login.html"), name="login"),
     path(settings.REGISTER_URL, views.register, name='register'),
     path('email/', views.email, name='email'),
@@ -37,4 +37,8 @@ urlpatterns = [
     path('get_available_dates/', views.get_availale_time, name='get_abailable_time'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('create/', views.ReservationCreateView.as_view(), name='create_reservation'),
+    path('update/<uidb64>', views.ReservationUpdateView.as_view(), name='update_reservation'),
+    path('read/<uidb64>', views.ReservationReadView.as_view(), name='read_reservation'),
+    path('delete/<uidb64>', views.ReservationDeleteView.as_view(), name='delete_reservation'),
 ]
