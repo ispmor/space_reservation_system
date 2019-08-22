@@ -4,8 +4,11 @@
 
   {% include "_modal.html" %}
 
+  
+        {% if user.is_authenticated %}
   <div class="container mt-3">
     <div class="row">
+
       <div class="col">        
         <div class="row">
           <div class="col-12 mb-3">
@@ -62,7 +65,7 @@
       </div>
     </div>
   </div>
-
+{% endif %}
 {% endblock content %}
 
 {% block extrascripts %}
