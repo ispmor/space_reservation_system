@@ -9,8 +9,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonRespons
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import UserCreateForm, ReservationForm, ContactForm, CustomUserCreationForm, CustomAuthenticationForm
-from .models import User
+from .forms import (UserCreateForm, ReservationForm, ContactForm, CustomUserCreationForm, CustomAuthenticationForm) 
+from . import models
 from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
 from datetime import datetime, timedelta
@@ -38,6 +38,17 @@ class CustomLoginView(BSModalLoginView):
     template_name = 'modals/login.html'
     success_message = 'Success: You were successfully logged in.'
     success_url = reverse_lazy('/')
+
+class ContactView(BSModalCreateView):
+    form_class = ContactForm
+    template_name = 'modals/contact.html'
+    success_message = 'Success: You successfully contacted us!.'
+    success_url = reverse_lazy('/')
+    def get(self, request):
+        if (request.user.is_authenticated):
+            user = request.user
+            context = {'form': form_class}
+            return render(request, template_name, context)
 
 class Index(generic.ListView):
     def get(self, request):

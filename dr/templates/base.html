@@ -52,9 +52,43 @@
       <!-- You can alternatively load the minified version -->
       <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
     {% endblock scripts %}
+{% block extrascripts %}
+  <script type="text/javascript">
+    $(function () {
+      // Log in & Sign up buttons
+      $(".login-btn").modalForm({formURL: "{% url 'login' %}"});
+      $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
 
-    {% block extrascripts %}{% endblock extrascripts %}
+      {% comment %} // Create reservation button
+      $(".create-reservation").modalForm({formURL: "{% url 'create_reservation' %}"});
 
+      // Update reservation buttons
+      $(".update-reservation").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+
+      // Contact form buttons
+      $(".create-contact").modalForm({formURL: "{% url 'contact' %}"});
+
+
+      // Read reservation buttons
+      $(".read-reservation").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+
+      // Delete reservation buttons
+      $(".delete-reservation").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      }) {% endcomment %}
+
+      // Hide message
+      $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert").slideUp(500);
+      });
+
+    });
+  </script>
+{% endblock extrascripts %}
   </body>
 
 </html>

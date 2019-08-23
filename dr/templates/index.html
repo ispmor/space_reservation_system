@@ -12,7 +12,7 @@
       <div class="col">        
         <div class="row">
           <div class="col-12 mb-3">
-            <button class="create-reservation btn btn-primary" type="button" name="button">
+            <button class="create-reservation btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modal" data-id="{% url 'create_reservation' %}">
               <span class="fa fa-plus mr-2"></span>Create reservation</button>
           </div>
           <div class="col-12 mb-3">
@@ -24,8 +24,6 @@
                     <th class="text-center" scope="col">Status</th>
                     <th class="text-center" scope="col">Room</th>
                     <th class="text-center" scope="col">Start date</th>
-                    <th class="text-center" scope="col">End date</th>
-                    <th class="text-center" scope="col">Description</th>
                     <th class="text-center" scope="col">Archived</th>
                     <th class="text-center" scope="col">Read / Update / Delete</th>
                   </tr>
@@ -37,20 +35,17 @@
                       <td class="text-center">{{ reservation.status }}</td>
                       <td class="text-center">{{ reservation.room }}</td>
                       <td class="text-center">{{ reservation.start_reservation }}</td>
-                      <td class="text-center">{{ reservation.end_reservation }}</td>
-                      <td class="text-center">{{ reservation.description }}</td>
                       <td class="text-center">{{ reservation.archived }}</td>
                       <td class="text-center">
-                        <button type="button" class="read-reservation btn btn-sm btn-primary" data-id="{% url 'read_reservation' reservation.pk %}">
+                        <button type="button" class="read-reservation btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-id="{% url 'read_reservation' reservation.pk %}">
                           <span class="fa fa-eye"></span>
                         </button>
-                        <button type="button" class="update-reservation btn btn-sm btn-primary" data-id="{% url 'update_reservation' reservation.pk %}">
+                        <button type="button" class="update-reservation btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-id="{% url 'update_reservation' reservation.pk %}">
                           <span class="fa fa-pencil"></span>
                         </button>
-                        <button type="button" class="delete-reservation btn btn-sm btn-danger" data-id="{% url 'delete_reservation' reservation.pk %}">
-                          <span class="fa fa-trash"></span>
+                        <button type="button" class="delete-reservation btn btn-sm btn-danger" data-toggle="modal" data-target="#modal" data-id="{% url 'delete_reservation' reservation.pk %}">
+                         <span class="fa fa-trash" aria-label="Delete"></span>
                         </button>
-                        <!--<button type="button" class="delete-reservation btn btn-sm btn-danger" data-toggle="modal" data-target="#modal" data-id="{% url 'delete_reservation' reservation.pk %}"> <span class="fa fa-trash" aria-label="Delete"></span> </button>-->
                       </td>
                     </tr>
                   {% endfor %}
@@ -68,36 +63,4 @@
 {% endif %}
 {% endblock content %}
 
-{% block extrascripts %}
-  <script type="text/javascript">
-    $(function () {
-      // Log in & Sign up buttons
-      $(".login-btn").modalForm({formURL: "{% url 'login' %}"});
-      $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
 
-      {% comment %} // Create reservation button
-      $(".create-reservation").modalForm({formURL: "{% url 'create_reservation' %}"});
-
-      // Update reservation buttons
-      $(".update-reservation").each(function () {
-        $(this).modalForm({formURL: $(this).data('id')});
-      });
-
-      // Read reservation buttons
-      $(".read-reservation").each(function () {
-        $(this).modalForm({formURL: $(this).data('id')});
-      });
-
-      // Delete reservation buttons
-      $(".delete-reservation").each(function () {
-        $(this).modalForm({formURL: $(this).data('id')});
-      }) {% endcomment %}
-
-      // Hide message
-      $(".alert").fadeTo(2000, 500).slideUp(500, function(){
-        $(".alert").slideUp(500);
-      });
-
-    });
-  </script>
-{% endblock extrascripts %}

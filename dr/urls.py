@@ -18,8 +18,6 @@ from bootstrap_modal_forms.generic import (BSModalLoginView,
 
 urlpatterns = [
     path('', views.Index.as_view(), name='index'),
-    # path(settings.LOGIN_URL, LoginView.as_view(template_name="login.html"), name="login"),
-    path(settings.REGISTER_URL, views.register, name='register'),
     path('email/', views.email, name='email'),
     path(settings.PASSWORD_CHANGE_URL, auth_views.PasswordChangeView.as_view(template_name="password_change_form.html"), name='password_change'),
     path(settings.PASSWORD_CHANGE_URL + '/done', auth_views.PasswordChangeDoneView.as_view(template_name="password_change_done.html"), name='password_change_done'),
@@ -38,6 +36,7 @@ urlpatterns = [
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('login/', views.CustomLoginView.as_view(), name='login'),
     path('create/', views.ReservationCreateView.as_view(), name='create_reservation'),
+    path('contact/', views.ContactView.as_view(), name='contact'),
     path('update/<uidb64>', views.ReservationUpdateView.as_view(), name='update_reservation'),
     path('read/<uidb64>', views.ReservationReadView.as_view(), name='read_reservation'),
     path('delete/<uidb64>', views.ReservationDeleteView.as_view(), name='delete_reservation'),

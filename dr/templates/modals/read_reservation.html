@@ -1,7 +1,7 @@
 {% load widget_tweaks %}
 
 <div class="modal-header">
-  <h3 class="modal-title">Book details</h3>
+  <h3 class="modal-title">reservation details</h3>
   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -11,28 +11,28 @@
 
   <div class="">
     Title:
-    {{ book.title }}
+    {{ reservation.room }}
   </div>
   <div class="">
     Author:
-    {{ book.author }}
+    {{ reservation.status }}
   </div>
   <div class="">
     Price:
-    {{ book.price }}
+    {{ reservation.description }}
     €
   </div>
   <div class="">
     Pages:
-    {{ book.pages }}
+    {{ reservation.start_reservation }}
   </div>
   <div class="">
     Type:
-    {{ book.get_book_type_display }}
+    {{ reservation.get_reservation_type_display }}
   </div>
   <div class="">
     Publication date:
-    {{ book.publication_date }}
+    {{ reservation.publication_date }}
   </div>
 
 </div>
