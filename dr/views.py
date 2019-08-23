@@ -9,7 +9,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonRespons
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .forms import (UserCreateForm, ReservationForm, ContactForm, CustomUserCreationForm, CustomAuthenticationForm) 
+from .forms import ( ReservationForm, ContactForm, CustomUserCreationForm, CustomAuthenticationForm) 
 from . import models
 from django.contrib.auth.models import User as muser
 from django.contrib.auth.hashers import make_password
@@ -31,6 +31,31 @@ class SignUpView(BSModalCreateView):
     template_name = 'modals/signup.html'
     success_message = 'Success: Sign up succeeded. You can now Log in.'
     success_url = reverse_lazy('index')
+    def post(self, request):
+        template_name = 'index.html'
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            userObj = form.cleaned_data
+            username = userObj['username']
+            first_name = userObj['first_name']
+            last_name = userObj['last_name']
+            email =  userObj['email']
+            password =  userObj['password']
+            group = userObj['group']
+            user = User(username=username, first_name=first_name, last_name=last_name, email=email, group=group)
+            user_abstr = muser(username=username, first_name=first_name, last_name=last_name, email=email,  password=make_password(password))
+            if not (User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists()):
+                user.save()
+                user_abstr.save()
+                user = authenticate(username = username, password = password)
+                login(request, user)
+                context = {'success_message': "You successfully created account"}
+            else:
+                context = {'success_message':"Email is already in use"}
+        else:
+            context = {'success_message': "Something went wrong"}
+        return render(request, template_name, context)
+        
 
 
 class CustomLoginView(BSModalLoginView):
@@ -39,16 +64,30 @@ class CustomLoginView(BSModalLoginView):
     success_message = 'Success: You were successfully logged in.'
     success_url = reverse_lazy('/')
 
+class AboutView(generic.TemplateView):
+    template_name = 'about.html'
+
 class ContactView(BSModalCreateView):
     form_class = ContactForm
     template_name = 'modals/contact.html'
     success_message = 'Success: You successfully contacted us!.'
     success_url = reverse_lazy('/')
-    def get(self, request):
-        if (request.user.is_authenticated):
-            user = request.user
-            context = {'form': form_class}
-            return render(request, template_name, context)
+
+    def post(self, request):
+        base_form  = ContactForm()
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                contact_request = ContactRequest(title = form.cleaned_data['title'], message = form.cleaned_data['message'], email = request.user.email)
+            elif form.cleaned_data['email'] != '':
+                contact_request = ContactRequest(title = form.cleaned_data['title'], message = form.cleaned_data['message'], email = form.cleaned_data['email'])
+            else:
+                return render(request, 'index.html', {'form': base_form, 'message': 'Mail not provided'})
+            contact_request.save()
+            send_mail(contact_request.title, contact_request.message, contact_request.email,  [settings.EMAIL_HOST_USER, contact_request.email])
+        else:
+            return render(request, 'index.html', {'form': base_form})
+        return render(request, 'index.html', {'form': base_form, 'success_message': 'You successfuly contacted us! Now wait for an answer :)'})
 
 class Index(generic.ListView):
     def get(self, request):
@@ -90,25 +129,6 @@ class ReservationDeleteView(BSModalDeleteView):
 
 
 
-
-def index(request):
-    base_form  = ContactForm()
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            if request.user.is_authenticated:
-                contact_request = ContactRequest(title = form.cleaned_data['title'], content = form.cleaned_data['content'], email = request.user.email)
-            elif form.cleaned_data['email'] != '':
-                contact_request = ContactRequest(title = form.cleaned_data['title'], content = form.cleaned_data['content'], email = form.cleaned_data['email'])
-            else:
-                return render(request, 'index.html', {'form': base_form, 'message': 'Mail not provided'})
-            contact_request.save()
-            send_mail(contact_request.title, contact_request.content, contact_request.email,  [settings.EMAIL_HOST_USER, contact_request.email])
-    else:
-        return render(request, 'index.html', {'form': base_form})
-    return render(request, 'index.html', {'form': base_form, 'message': 'You successfuly contacted us! Now wait for an answer :)'})
-
-
 def failed_reservation(request):
     if request.user.is_authenticated:
         return render(request, 'failed_reservation.html')
@@ -146,7 +166,7 @@ def reservation(request):
             form = ReservationForm()
             return render(request, 'reservation.html',{'form': form})
     else:
-        return HttpResponseRedirect(settings.LOGIN_URL)
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
 def validate_reservation_date(reservation):
     reservation_list = Reservation.objects.filter(room=reservation.room, status='a').order_by("-start_reservation")
@@ -186,7 +206,7 @@ def reservations(request):
             return HttpResponseRedirect(settings.RESERVATION_URL)
         return render(request, 'reservations.html', context=context)
     else:
-        return HttpResponseRedirect(settings.LOGIN_URL)
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
 
 def getState(r): 
@@ -211,7 +231,7 @@ def concierge(request):
         }
         return render(request, 'concierge.html', context=context)
     else:
-        return HttpResponseRedirect(settings.LOGIN_URL)
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
 def register(request):
     template_name = "register.html"

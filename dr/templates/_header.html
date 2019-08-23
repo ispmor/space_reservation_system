@@ -42,8 +42,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-    <button class="index-btn w3-bar-item w3-button btn"  name="button" style="width:25% !important">HOME</button>
-    <button class="about-btn w3-bar-item w3-button btn"  name="button" style="width:25% !important">ABOUT</button>
+    <button onclick="location.href='/'" class="w3-bar-item w3-button btn"  name="button" style="width:25% !important">HOME</button>
+    <button onclick="location.href='/about'" class="w3-bar-item w3-button btn" name="button" style="width:25% !important">ABOUT</button>
     <button class="contact-btn w3-bar-item w3-button btn"  name="button" style="width:25% !important">CONTACT</button>
     {% if user.is_authenticated %}
               <a href="{% url 'logout' %}" class="logout-btn btn btn-danger" role="button">Log out</a>

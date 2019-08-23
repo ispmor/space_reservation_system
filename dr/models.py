@@ -95,4 +95,4 @@ class Reservation(models.Model):
 class ContactRequest(models.Model):
     title = models.CharField(null = False, blank = False, max_length = 150)
     email = models.EmailField(null = True)
-    content = models.CharField(null = False, blank = False, max_length = 450)
+    message = models.CharField(null = False, blank = False, max_length = 450)

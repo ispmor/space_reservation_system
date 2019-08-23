@@ -79,14 +79,16 @@ INDEX_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = INDEX_REDIRECT_URL
 LOGIN_URL= 'login/'
 LOGOUT_URL= 'logout/'
-REGISTER_URL = 'register/'
+REGISTER_URL = 'signup/'
 RESERVATIONS_URL = 'reservations/'
 RESERVATION_URL = 'reservation/'
 CONCIERGE_URL = 'concierge/'
 FAILED_RESERVATION_URL = 'failed_reservation/'
-FAILED_REGISTER_URL = 'failed_register'
+FAILED_REGISTER_URL = 'failed_register/'
 PASSWORD_CHANGE_URL = 'password_change'
-PASSWORD_RESET_URL = 'password_reset'
+ABOUT_URL = 'about/'
+CONTACT_URL = 'contact/'
+PASSWORD_RESET_URL = 'password_reset/'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 

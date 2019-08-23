@@ -59,8 +59,10 @@
       $(".login-btn").modalForm({formURL: "{% url 'login' %}"});
       $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
 
+      $(".contact-btn").modalForm({formURL: "{% url 'contact' %}"});
+
       {% comment %} // Create reservation button
-      $(".create-reservation").modalForm({formURL: "{% url 'create_reservation' %}"});
+      $(".create-reservation").modalForm({formURL: "{% url 'reservation' %}"});
 
       // Update reservation buttons
       $(".update-reservation").each(function () {
@@ -68,14 +70,12 @@
       });
 
       // Contact form buttons
-      $(".create-contact").modalForm({formURL: "{% url 'contact' %}"});
 
 
       // Read reservation buttons
       $(".read-reservation").each(function () {
         $(this).modalForm({formURL: $(this).data('id')});
       });
-
       // Delete reservation buttons
       $(".delete-reservation").each(function () {
         $(this).modalForm({formURL: $(this).data('id')});

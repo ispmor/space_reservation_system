@@ -1,10 +1,7 @@
-<!doctype html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+{% include "_modal.html" %}
+{% load static %}
 Reservations in (now-2h, now + 24h)
 <table id="Concierge view" class="w3-hoverable">
 <tr>
@@ -26,5 +23,3 @@ Reservations in (now-2h, now + 24h)
   </tr>
   {% endfor %}
 </table>
-  </body>
-</html>
