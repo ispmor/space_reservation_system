@@ -56,7 +56,7 @@
   <script type="text/javascript">
     $(function () {
       // Log in & Sign up buttons
-      $(".login-btn").modalForm({formURL: "{% url 'login' %}"});
+      $(".login-btn").modalForm({formURL: "{% url 'login-modal' %}"});
       $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
       $(".contact-btn").modalForm({formURL: "{% url 'contact' %}"});
       {% comment %} // Create reservation button
