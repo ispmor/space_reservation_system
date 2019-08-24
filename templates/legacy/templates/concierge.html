@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include "_modal.html" %}
+{% load static %}
+Reservations in (now-2h, now + 24h)
+<table id="Concierge view" class="w3-hoverable">
+<tr>
+<th>State</th>
+<th>Room</th>
+<th>Status</th>
+<th>Start</th>
+<th>End</th>
+<th>Description</th>
+</tr>
+  {% for reservation, state in reservations %}
+  <tr>
+    <td>{{state}}</td>
+    <td>{{reservation.room}}</td>
+    <td>{{reservation.status}}</td>
+    <td>{{reservation.start_reservation}}</td>
+    <td>{{reservation.end_reservation}}</td>
+    <td>{{reservation.description}}</td>
+  </tr>
+  {% endfor %}
+</table>
