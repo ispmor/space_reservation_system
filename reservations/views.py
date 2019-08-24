@@ -12,26 +12,20 @@ class ReservationCreateView(BSModalCreateView):
     form_class = ReservationForm
     success_message = 'Success: Reservation was created.'
 
-
 class ReservationUpdateView(BSModalUpdateView):
     model = Reservation
     template_name = 'reservation/modals/update.html'
     form_class = ReservationForm
     success_message = 'Success: Reservation was updated.'
 
-
 class ReservationReadView(BSModalReadView):
     model = Reservation
     template_name = 'reservation/modals/read.html'
-
 
 class ReservationDeleteView(BSModalDeleteView):
     model = Reservation
     template_name = 'reservation/modals/delete.html'
     success_message = 'Success: Reservation was deleted.'
-
-
-
 
 #legacy:
 # def failed_reservation(request):
