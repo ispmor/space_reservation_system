@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    {% block stylesheets %}
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+      <!-- Font awesome CSS -->
+      <link rel="stylesheet" href="{% static 'assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+      <!-- Custom CSS -->
+      <style media="screen">
+        .invalid {
+          color: #dc3545;
+          font-size: 80%;
+        }
+        body {
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+        .footer {
+          margin: auto 0 0;
+          height: 56px;
+        }
+      </style>
+    {% endblock stylesheets %}
+
+    <title>space_reservation-system</title>
+  </head>
+
+  <body>
+
+    <!-- Includes -->
+    {% include "_header.html" %}
+
+    {% block content %}{% endblock content %}
+    {% include "_navbar.html" %}
+    <!-- Includes -->
+    {% include "_footer.html" %}
+
+    <!-- JavaScript -->
+    {% block scripts %}
+      <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+      <script src="{% static 'assets/js/popper.min.js' %}"></script>
+      <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+      <!-- You can alternatively load the minified version -->
+      <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+    {% endblock scripts %}
+{% block extrascripts %}
+  <script type="text/javascript">
+    $(function () {
+      // Log in & Sign up buttons
+      $(".login-btn").modalForm({formURL: "{% url 'login' %}"});
+      $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
+
+      $(".contact-btn").modalForm({formURL: "{% url 'contact' %}"});
+
+      {% comment %} // Create reservation button
+      $(".create-reservation").modalForm({formURL: "{% url 'reservation' %}"});
+
+      // Update reservation buttons
+      $(".update-reservation").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+
+      // Contact form buttons
+
+
+      // Read reservation buttons
+      $(".read-reservation").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      });
+      // Delete reservation buttons
+      $(".delete-reservation").each(function () {
+        $(this).modalForm({formURL: $(this).data('id')});
+      }) {% endcomment %}
+
+      // Hide message
+      $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert").slideUp(500);
+      });
+
+    });
+  </script>
+{% endblock extrascripts %}
+  </body>
+
+</html>

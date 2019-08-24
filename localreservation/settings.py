@@ -14,7 +14,11 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+ STATIC_URL = '/static/'
+ STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -37,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap_modal_forms',
     'dr.apps.DrConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -71,10 +77,22 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'localreservation.wsgi.application'
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL= '/dr/login'
 
-
+INDEX_URL = ''
+INDEX_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = INDEX_REDIRECT_URL
+LOGIN_URL= 'login/'
+LOGOUT_URL= 'logout/'
+REGISTER_URL = 'signup/'
+RESERVATIONS_URL = 'reservations/'
+RESERVATION_URL = 'reservation/'
+CONCIERGE_URL = 'concierge/'
+FAILED_RESERVATION_URL = 'failed_reservation/'
+FAILED_REGISTER_URL = 'failed_register/'
+PASSWORD_CHANGE_URL = 'password_change'
+ABOUT_URL = 'about/'
+CONTACT_URL = 'contact/'
+PASSWORD_RESET_URL = 'password_reset/'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -125,14 +143,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # to send mails
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # uncomment this line to send mails to your console 
-
+# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # uncomment this line to send mails to your console 
 EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST = 'smtp-relay.sendinblue.com' #sendinblue
+EMAIL_HOST_USER = 'startapplocha86@gmail.com' #sendinblue / gmail
+# EMAIL_HOST_PASSWORD  = '7MfXRwy1IjsPDAQC' #sendinblue
+EMAIL_HOST_PASSWORD = 'unistartapp1!' #gmail
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'startapplocha86@gmail.com'
-EMAIL_HOST_PASSWORD = 'unistartapp1!'
+# EMAIL_HOST_USER = 'apikey' #sendgrid
+# EMAIL_HOST_PASSWORD = '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' #sendgrid
 DEFAULT_FROM_EMAIL = 'testing@testing.com'
 
 BOOTSTRAP4 = {

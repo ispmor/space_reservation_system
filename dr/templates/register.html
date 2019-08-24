@@ -1,35 +1,23 @@
-<head>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-	{% load static %}
-	<script src="{% static 'js/forms.js' %}"></script>
-	<link rel="stylesheet" href="{% static 'css/forms.css' %}">
-</head>
-
-
-{% block title %}Sign Up{% endblock %}
-
+{% extends 'base.html' %}
 {% block content %}
+{% include "_modal.html" %}
 <div class="text-center" style="padding:50px 0">
-	<div class="login-form-1">
-		<div class="main-login-form">
-			<div class="login-group">
-				<h2>Register</h2>
+	<div class='center'>
+	<div class="form">
+				<h2>Login</h2>
 				<form method="post" class="text-left" id="login-form">
 					{% csrf_token %}
 					{{ form.as_p }}
-					<button type="submit" class="login-button"><i class="fa fa-chevron-right"></i></button>
+					<div class="form-group login-group-checkbox">
+						<input type="checkbox" id="lg_remember" name="lg_remember">
+						<label for="lg_remember">Remember</label>
+					</div>
+					<button type="submit" class="button"><i class="fa fa-chevron-right"></i></button>
 					<div class="etc-login-form">
-						<p>Already a member? <a href="../login">Sign in!</a></p>
+						<p>Forgot your password? <a href="../password_reset">Click here</a></p>
+						<p>New user? <a href="../register">Create new account</a></p>
 					</div>
 				</form>
-			</div>
-		</div>
 	</div>
-	<div class="login-form-1">
-{% endblock %}
+	</div>
+	{% endblock %}

@@ -1,5 +1,7 @@
-<html>
-<head>
+{% extends 'base.html' %}
+{% block content %}
+{% include "_modal.html" %}
+{% load static %}
     <meta charset="utf-8" />
     <title>Reservation Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,12 +13,9 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 
-    {% load static %}
     <script src="{% static 'js/forms.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/forms.css' %}">
 
-</head>
-<body>
 
     <div class="reservation-container"> 
       <div class="col-sm-5 block">
@@ -44,5 +43,4 @@
         $('#id_start_reservation').datetimepicker({ footer: true, modal: true, format: "yyyy-mm-dd HH:MM" });
         $('#id_end_reservation').datetimepicker({ footer: true, modal: true, format: "yyyy-mm-dd HH:MM" });
     </script>
-</body>
-</html>
+{% endblock %}

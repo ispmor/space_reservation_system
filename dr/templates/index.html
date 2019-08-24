@@ -1,194 +1,62 @@
-<!DOCTYPE html>
-<html>
-{% load static %}
-<title>DRIMn</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
-.w3-row-padding img {margin-bottom: 12px}
-/* Set the width of the sidebar to 120px */
-.w3-sidebar {width: 120px;background: #222;}
-/* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
-#main {margin-left: 120px}
-/* Remove margins from "page content" on small screens */
-@media only screen and (max-width: 600px) {#main {margin-left: 0}}
-</style>
-<body class="w3-black">
-<!-- Icon Bar (Sidebar - hidden on small screens) -->
-<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
-  <!-- Avatar image in top left corner -->
+{% extends 'base.html' %}
+{% block content %}
+{% include "_modal.html" %}
+        {% if user.is_authenticated %}
+  <div class="container mt-3">
+    <div class="row">
 
-  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-black">
-    <i class="fa fa-home w3-xxlarge"></i>
-    <p>HOME</p>
-  </a>
-  <a href="#about" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-user w3-xxlarge"></i>
-    <p>ABOUT</p>
-  </a>
-  <a href="#photos" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-eye w3-xxlarge"></i>
-    <p>PHOTOS</p>
-  </a>
-  <a href="#contact" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-envelope w3-xxlarge"></i>
-    <p>CONTACT</p>
-  </a>
-  {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-    <a href="../dr/reservation" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-calendar-plus-o w3-xxlarge"></i>
-    <p>RESERVE</p>
-  </a>
-    <a href="../dr/reservations" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-calendar w3-xxlarge"></i>
-    <p>RESERVATIONS</p>
-  </a>
-    </a>
-    <a href="../dr/concierge" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-calendar w3-xxlarge"></i>
-    <p>CONCIERGE</p>
-  </a>
-    </a>
-    <a href="../dr/password_change" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-key w3-xxlarge"></i>
-    <p>CHANGE PASSWORD</p>
-  </a>
-    </a>
-    <a href="../dr/logout" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-hand-spock-o w3-xxlarge"></i>
-    <p>LOGOUT</p>
-  </a>
-{% else %}
-  <a href="../dr/login" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-unlock w3-xxlarge"></i>
-    <p>LOGIN</p>
-  </a>
-    <a href="../dr/register" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
-    <i class="fa fa-vcard w3-xxlarge"></i>
-    <p>REGISTER</p>
-  </a>
+      <div class="col">        
+        <div class="row">
+          <div class="col-12 mb-3">
+            <button class="create-reservation btn btn-primary" type="button" name="button" data-toggle="modal" data-target="#modal" data-id="{% url 'create_reservation' %}">
+              <span class="fa fa-plus mr-2"></span>Create reservation</button>
+          </div>
+          <div class="col-12 mb-3">
+            {% if reservations %}
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col">#</th>
+                    <th class="text-center" scope="col">Status</th>
+                    <th class="text-center" scope="col">Room</th>
+                    <th class="text-center" scope="col">Start date</th>
+                    <th class="text-center" scope="col">Archived</th>
+                    <th class="text-center" scope="col">Read / Update / Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for reservation in reservations %}
+                    <tr>
+                      <th class="text-center" scope="row">{{ forloop.counter }}</th>
+                      <td class="text-center">{{ reservation.status }}</td>
+                      <td class="text-center">{{ reservation.room }}</td>
+                      <td class="text-center">{{ reservation.start_reservation }}</td>
+                      <td class="text-center">{{ reservation.archived }}</td>
+                      <td class="text-center">
+                        <button type="button" class="read-reservation btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-id="{% url 'read_reservation' reservation.pk %}">
+                          <span class="fa fa-eye"></span>
+                        </button>
+                        <button type="button" class="update-reservation btn btn-sm btn-primary" data-toggle="modal" data-target="#modal" data-id="{% url 'update_reservation' reservation.pk %}">
+                          <span class="fa fa-pencil"></span>
+                        </button>
+                        <button type="button" class="delete-reservation btn btn-sm btn-danger" data-toggle="modal" data-target="#modal" data-id="{% url 'delete_reservation' reservation.pk %}">
+                         <span class="fa fa-trash" aria-label="Delete"></span>
+                        </button>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <p class="no-reservations text-primary">No reservations added yet.</p>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 {% endif %}
+{% endblock content %}
 
 
-</nav>
-
-<!-- Navbar on small screens (Hidden on medium and large screens) -->
-<div class="w3-top w3-hide-large w3-hide-medium" id="myNavbar">
-  <div class="w3-bar w3-black w3-opacity w3-hover-opacity-off w3-center w3-small">
-    <a href="#" class="w3-bar-item w3-button" style="width:25% !important">HOME</a>
-    <a href="#about" class="w3-bar-item w3-button" style="width:25% !important">ABOUT</a>
-    <a href="#photos" class="w3-bar-item w3-button" style="width:25% !important">PHOTOS</a>
-    <a href="#contact" class="w3-bar-item w3-button" style="width:25% !important">CONTACT</a>
-    {% if user.is_authenticated %}
-    <a href="../dr/reservations" class="w3-bar-item w3-button" style="width:25% !important">RESERVATIONS</a>
-    <a href="../dr/logout" class="w3-bar-item w3-button" style="width:25% !important">CHANGE PASS</a>
-    <a href="../dr/logout" class="w3-bar-item w3-button" style="width:25% !important">LOGOUT</a>
-    {% else %}
-    <a href="../dr/register" class="w3-bar-item w3-button" style="width:25% !important">REGISTER</a>
-    <a href="../dr/login" class="w3-bar-item w3-button" style="width:25% !important">LOGIN</a>
-    {% endif %}
-    {% endblock %}
-  </div>
-</div>
-
-<!-- Page Content -->
-<div class="w3-padding-large" id="main">
-  <!-- Header/Home -->
-  <header class="w3-container w3-padding-32 w3-center w3-black" id="home">
-    <h1 class="w3-jumbo"><span class="w3-hide-small">We're</span> DRIMn.</h1>
-    <p>Make this happen.</p>
-      <img src="{% static "images/logoprosie2.png" %}" / >
-
-    {% comment %} <img src="/w3images/man_smoke.jpg" alt="boy" class="w3-image" width="992" height="1108"> {% endcomment %}
-  </header>
-
-  <!-- About Section -->
-  <div class="w3-content w3-justify w3-text-grey w3-padding-64" id="about">
-    <h2 class="w3-text-light-grey">About us</h2>
-    <hr style="width:200px" class="w3-opacity">
-    <p>Some text about me. Some text about me. I am lorem ipsum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-      ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur
-      adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </p>
-    
-    {% comment %} <div class="w3-row w3-center w3-padding-16 w3-section w3-light-grey">
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge">11+</span><br>
-        Lorem Ipsum
-      </div>
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge">55+</span><br>
-        Lorem Ipsum
-      </div>
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge">89+</span><br>
-        Happy Clients
-      </div>
-      <div class="w3-quarter w3-section">
-        <span class="w3-xlarge">150+</span><br>
-        Lorem Ipsum
-      </div>
-    </div>
-   {% endcomment %}
-    <div>
-    <!-- Testimonials -->
-    <h3 class="w3-padding-24 w3-text-light-grey">Our Reputation</h3>  
-    <img src="{% static "images/avatar1.png"%}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px"/>
-    <p><span class="w3-large w3-margin-right">Jakiś random.</span> PW Student.</p>
-    <p>Drimn saved my workshops.</p><br>
-    
-    <img src="{% static "images/avatar2.png"%}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:80px">
-    <p><span class="w3-large w3-margin-right">Jakiś CEO.</span> CEO at Company.</p>
-    <p>You can't find better conference rooms!</p>
-  <!-- End About Section -->
-  </div>
-  
-  <div class="w3-padding-64 w3-content" id="photos">
-    <h2 class="w3-text-light-grey">Our Rooms</h2>
-    <hr style="width:200px" class="w3-opacity">
-
-    <!-- Grid for photos -->
-    <div class="w3-row-padding" style="margin:0 -16px">
-      <div class="w3-half">
-        <img src="{% static "images/Room0.jpg"%}" style="width:100%">
-        <img src="{% static "images/Room1.jpg"%}" style="width:100%">
-        <img src="{% static "images/Room2.jpg"%}" style="width:100%">
-      </div>
-
-      <div class="w3-half">
-        <img src="{% static "images/Room3.jpg"%}" style="width:100%">
-        <img src="{% static "images/Room4.jpg"%}" style="width:100%">
-        <img src="{% static "images/Room5.jpg"%}" style="width:100%">
-        <img src="{% static "images/Room6.jpg"%}" style="width:100%">
-      </div>
-    </div>
-  </div>
-
-  <!-- Contact Section -->
-  <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
-    <h2 class="w3-text-light-grey">Contact Us</h2>
-    <hr style="width:200px" class="w3-opacity">
-
-    <div class="w3-section">
-      <p><a href = https://www.google.pl/maps/place/Centrum+Zarządzania+Innowacjami+i+Transferem+Technologii+Politechniki+Warszawskiej/@52.218003,21.0080783,17z/data=!3m1!4b1!4m5!3m4!1s0x471ecce9a8a6c849:0xc43192b0da36bd37!8m2!3d52.218003!4d21.010267 target="_blank"><i class="fa fa-map-marker fa-fw w3-text-white w3-xxlarge w3-margin-right"></i>Warsaw, Poland</a></p>
-      <p><i class="fa fa-phone fa-fw w3-text-white w3-xxlarge w3-margin-right"></i> Phone: 123456789</p>
-      <p><i class="fa fa-envelope fa-fw w3-text-white w3-xxlarge w3-margin-right"> </i>Email: startapplocha86@mail.com</p>
-  
-    <!-- Footer -->
-  <footer class="w3-content w3-padding-64 w3-text-grey w3-xlarge">
-   <a href="https://www.facebook.com/cziitt/" target="_blank"> <i class="fa fa-facebook-official w3-hover-opacity"></i></a>
-    <p class="w3-medium">Powered by <a target="_blank" class="w3-hover-text-green">Lochy i Odyńce</a></p>
-  <!-- End footer -->
-  </footer>
-
-<!-- END PAGE CONTENT -->
-</div>
-
-</body>
-</html>

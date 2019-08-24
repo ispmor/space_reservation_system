@@ -72,9 +72,9 @@ class Reservation(models.Model):
     room = models.ForeignKey("Room", on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey("User", on_delete=models.SET_NULL, null=True)
     STATUS_OF_RESERVATION = (
-        ('a', 'Accepted'),
-        ('r', 'Rejected'),
-        ('i', 'In Progress'),
+        ('Accepted', 'Accepted'),
+        ('Rejected', 'Rejected'),
+        ('In Progress', 'In Progress'),
     )
     status = models.CharField(
         max_length = 1,
@@ -90,3 +90,9 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f'{self.user} {self.room}'
+
+
+class ContactRequest(models.Model):
+    title = models.CharField(null = False, blank = False, max_length = 150)
+    email = models.EmailField(null = True)
+    message = models.CharField(null = False, blank = False, max_length = 450)
