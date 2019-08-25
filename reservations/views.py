@@ -49,19 +49,6 @@ class ReservationListView(generic.ListView):
             context = {"reservations": reservations}
             return render(request, template_name, context)
         return render(request, template_name)
-#legacy:
-# def failed_reservation(request):
-#     if request.user.is_authenticated:
-#         return render(request, 'failed_reservation.html')
-#     else:
-#         return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
-
-# def failed_register(request):
-#     if request.user.is_authenticated:
-#         return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
-#     else:
-#         return render(request, 'failed_register.html')
-
 
 def reservation(request):
     if request.user.is_authenticated:
@@ -105,7 +92,20 @@ def validate_reservation_date(reservation):
             return False
     return True
 
-            
+#legacy:
+# def failed_reservation(request):
+#     if request.user.is_authenticated:
+#         return render(request, 'failed_reservation.html')
+#     else:
+#         return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
+
+# def failed_register(request):
+#     if request.user.is_authenticated:
+#         return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
+#     else:
+#         return render(request, 'failed_register.html')
+
+        
 # def reservations(request):
 #     now = timezone.now()
 #     if request.user.is_authenticated:
