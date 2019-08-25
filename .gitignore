@@ -3,3 +3,4 @@ dr/migrations
 *.sqlite3
 .idea/
 .vscode/
+db.sqlite3

@@ -19,25 +19,25 @@ class ReservationCreateView(BSModalCreateView):
     template_name = 'reservation/modals/create.html'
     form_class = ReservationForm
     success_message = 'Success: Reservation was created.'
-    success_url = reverse_lazy('')
+    success_url = reverse_lazy('/')
 
 class ReservationUpdateView(BSModalUpdateView):
     model = Reservation
     template_name = 'reservation/modals/update.html'
     form_class = ReservationForm
     success_message = 'Success: Reservation was updated.'
-    success_url = reverse_lazy('')
+    success_url = reverse_lazy('/')
 
 class ReservationReadView(BSModalReadView):
     model = Reservation
     template_name = 'reservation/modals/read.html'
-    success_url = reverse_lazy('')
+    success_url = reverse_lazy('/')
 
 class ReservationDeleteView(BSModalDeleteView):
     model = Reservation
     template_name = 'reservation/modals/delete.html'
     success_message = 'Success: Reservation was deleted.'
-    success_url = reverse_lazy('')
+    success_url = reverse_lazy('/')
 
 class ReservationListView(generic.ListView):
     def get(self, request):

@@ -59,7 +59,6 @@
       $(".login-btn").modalForm({formURL: "{% url 'login' %}"});
       $(".signup-btn").modalForm({formURL: "{% url 'signup' %}"});
       $(".contact-btn").modalForm({formURL: "{% url 'contact' %}"});
-      {% comment %} // Create reservation button
       $(".create-reservation").modalForm({formURL: "{% url 'reservation' %}"});
       // Update reservation buttons
       $(".update-reservation").each(function () {
@@ -72,7 +71,7 @@
       // Delete reservation buttons
       $(".delete-reservation").each(function () {
         $(this).modalForm({formURL: $(this).data('id')});
-      }) {% endcomment %}
+      })
       // Hide message
       $(".alert").fadeTo(2000, 500).slideUp(500, function(){
         $(".alert").slideUp(500);
