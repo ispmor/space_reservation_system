@@ -4,13 +4,13 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/', include('django.contrib.auth.urls')),
     path('users/', include('users.urls')),
+    path('users/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
-    path('contact/', include('contact.urls')),
-    path(('rooms/'), include('rooms.urls')),
-    path(('reservations/'), include('reservations.urls')),
+    path('rooms/', include('rooms.urls')),
+    path('reservations/', include('reservations.urls')),
     path('', include('pages.urls')),
+    path('', include('contact.urls')),
 ]
 
 if settings.DEBUG:
