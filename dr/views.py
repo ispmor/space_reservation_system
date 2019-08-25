@@ -182,6 +182,7 @@ def validate_reservation_date(reservation):
         print("+++++++", r.end_reservation, reservation.end_reservation )
         if r.start_reservation < reservation.start_reservation < r.end_reservation or r.start_reservation < reservation.end_reservation < r.end_reservation :
             return False
+
     return True
 
             
