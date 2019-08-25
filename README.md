@@ -1,12 +1,11 @@
-<img width="400" src="logo.png" alt="DjangoX logo">
+<img width="400" src="logo.png" alt="space_reservation logo">
 
-A framework for launching new Django projects quickly. Comes with a complete user authentication flow, custom user model, and social authentication options via Gmail, Facebook, Twitter, etc.
-
-> **NOTE**: This open source project is supported by my two published books [Django for Beginners](https://djangoforbeginners.com/) and [Django for APIs](https://djangoforapis.com). Both of which have the first few chapters available for free online. Please take a look!
+> **NOTE**: 
+[Django for Beginners](https://djangoforbeginners.com/)
+[Django for APIs](https://djangoforapis.com
 
 ## Features
 
-- For Django 2.2 and Python 3.7
 - Modern virtual environments with [pipenv](https://github.com/pypa/pipenv)
 - Styling with [Bootstrap](https://github.com/twbs/bootstrap) v4.1.3
 - Custom user model
@@ -16,42 +15,29 @@ A framework for launching new Django projects quickly. Comes with a complete use
 
 ## First-time setup
 
-1.  Make sure Python 3.7x and Pipenv are already installed. [See here for help](https://djangoforbeginners.com/initial-setup/).
-2.  Clone the repo and configure the virtual environment:
-
-```
-$ git clone https://github.com/wsvincent/djangox.git
-$ cd djangox
 $ pipenv install
 $ pipenv shell
-```
-
-3.  Set up the initial migration for our custom user models in `users` and build the database.
 
 ```
-(djangox) $ python manage.py makemigrations users
-(djangox) $ python manage.py migrate
+(space_reservation) $ python manage.py makemigrations users
+(space_reservation) $ python manage.py migrate
 ```
 
 4.  Create a superuser:
 
 ```
-(djangox) $ python manage.py createsuperuser
+(space_reservation) $ python manage.py createsuperuser
 ```
 
 5.  Confirm everything is working:
 
 ```
-(djangox) $ python manage.py runserver
+(space_reservation) $ python manage.py runserver
 ```
 
 Load the site at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-![Home](static/images/home_2.2.png)
-
-![Sign Up](static/images/signup_2.2.png)
-
-## Next Steps
+## Extending 
 
 - Use [PostgreSQL locally via Docker](https://wsvincent.com/django-docker-postgresql/)
 - Use [django-environ](https://github.com/joke2k/django-environ) for environment variables

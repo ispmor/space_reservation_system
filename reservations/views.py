@@ -27,6 +27,7 @@ class ReservationDeleteView(BSModalDeleteView):
     template_name = 'reservation/modals/delete.html'
     success_message = 'Success: Reservation was deleted.'
 
+
 #legacy:
 # def failed_reservation(request):
 #     if request.user.is_authenticated:
