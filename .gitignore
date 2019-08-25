@@ -1,3 +1,4 @@
 *.pyc
+.idea/
 dr/migrations
 *.sqlite3
