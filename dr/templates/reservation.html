@@ -14,6 +14,8 @@
     <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 
     <script src="{% static 'js/forms.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.simple-dtpicker.js' %}"></script>
+    <link type="text/css" href="{% static 'css/jquery.simple-dtpicker.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/forms.css' %}">
 
 
@@ -39,8 +41,15 @@
 
    
  
-    <script>
-        $('#id_start_reservation').datetimepicker({ footer: true, modal: true, format: "yyyy-mm-dd HH:MM" });
-        $('#id_end_reservation').datetimepicker({ footer: true, modal: true, format: "yyyy-mm-dd HH:MM" });
+    <script type="text/javascript">
+					$('*[name=start_reservation]').appendDtpicker({
+						"closeOnSelected": true,
+						"dateFormat": "YYYY-MM-DD hh:mm",
+						"timelistScroll": false
+					});
+					$('*[name=end_reservation]').appendDtpicker({
+						"closeOnSelected": true,
+						"dateFormat": "YYYY-MM-DD hh:mm"
+					});
     </script>
 {% endblock %}
