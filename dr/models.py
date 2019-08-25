@@ -59,7 +59,7 @@ class User(models.Model):
         max_length = 1,
         choices = groups,
         blank = True,
-        help_text = "To which group does User qualify"
+        help_text = "To which group does User qualify",
     )
     archived = models.BooleanField(blank = True, null = True, default = False)
 
@@ -72,17 +72,18 @@ class Reservation(models.Model):
     room = models.ForeignKey("Room", on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey("User", on_delete=models.SET_NULL, null=True)
     STATUS_OF_RESERVATION = (
-        ('Accepted', 'Accepted'),
-        ('Rejected', 'Rejected'),
-        ('In Progress', 'In Progress'),
+        ('a', 'Accepted'),
+        ('r', 'Rejected'),
+        ('i', 'In Progress'),
     )
     status = models.CharField(
         max_length = 1,
         choices = STATUS_OF_RESERVATION,
         blank = True,
-        help_text = "Reservation status"
+        help_text = "Reservation status",
+        default='i'
     )
-    description = models.CharField(blank=False, max_length=1024, default="I want to reserve this room because: ")
+    description = models.CharField(blank=False, max_length=1024, default="I want to book this room because: ")
     start_reservation = models.DateTimeField(null=True, blank=True)
     end_reservation = models.DateTimeField(null=True, blank=True)
     googleId = models.TextField(null=True, blank=True)
