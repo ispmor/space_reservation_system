@@ -1,33 +1,53 @@
 from django.shortcuts import render
 from .forms import ReservationForm
+from django.urls import reverse_lazy
+from django.views import generic
+from django.utils import timezone
+from users.models import CustomUser
+from datetime import datetime, timedelta
+
 from .models import Reservation
 from bootstrap_modal_forms.generic import (BSModalLoginView,
                                            BSModalCreateView,
                                            BSModalUpdateView,
                                            BSModalReadView,
                                            BSModalDeleteView)
+
 # Create your views here.
 class ReservationCreateView(BSModalCreateView):
     template_name = 'reservation/modals/create.html'
     form_class = ReservationForm
     success_message = 'Success: Reservation was created.'
+    success_url = reverse_lazy('')
 
 class ReservationUpdateView(BSModalUpdateView):
     model = Reservation
     template_name = 'reservation/modals/update.html'
     form_class = ReservationForm
     success_message = 'Success: Reservation was updated.'
+    success_url = reverse_lazy('')
 
 class ReservationReadView(BSModalReadView):
     model = Reservation
     template_name = 'reservation/modals/read.html'
+    success_url = reverse_lazy('')
 
 class ReservationDeleteView(BSModalDeleteView):
     model = Reservation
     template_name = 'reservation/modals/delete.html'
     success_message = 'Success: Reservation was deleted.'
+    success_url = reverse_lazy('')
 
-
+class ReservationListView(generic.ListView):
+    def get(self, request):
+        template_name = 'reservation/list.html'
+        now = timezone.now()
+        if (request.user.is_authenticated):
+            user = request.user
+            reservations = Reservation.objects.filter(user=CustomUser.objects.get(username=user.username).id, archived = False, end_reservation__gte = now - timedelta(hours = 1))
+            context = {"reservations": reservations}
+            return render(request, template_name, context)
+        return render(request, template_name)
 #legacy:
 # def failed_reservation(request):
 #     if request.user.is_authenticated:
