@@ -2,6 +2,8 @@ from django.contrib import admin
 
 from dr.models import Room, User, Reservation
 from dr.google_calendar import Calendar
+from django.contrib import messages
+from dr.views import validate_reservation_date
 
 
 class RoomAdmin(admin.ModelAdmin):
@@ -21,7 +23,9 @@ admin.site.register(User, UserAdmin)
 
 
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ('user', 'room', 'start_reservation', 'end_reservation')
+    ordering = ['-start_reservation', 'room']
+
+    list_display = ('user', 'room', 'start_reservation', 'end_reservation', 'status')
     list_filter = ['status', 'user', 'room']
 
     fieldsets = (
@@ -39,8 +43,13 @@ class ReservationAdmin(admin.ModelAdmin):
             sd = sd[:10] + 'T' + sd[11:]
             ed = str(obj.end_reservation)
             ed = ed[:10] + 'T' + ed[11:]
-            print("++++++++++++++++++++++++++++++++", obj)
-            if obj.status == 'a' and not obj.googleId:
+            print("++++++++++++++++++++++++++++++++", obj,validate_reservation_date(obj))
+            if not validate_reservation_date(obj):
+                print("date is not valid with other reservations")
+                messages.add_message(request, messages.WARNING, "Data collision exists for " + str(obj.user) + " "
+                                 + str(obj.room) + ", changes were not saved.")
+
+            if obj.status == 'a' and not obj.googleId and validate_reservation_date(obj):
                 event_id = calendar.addEvent(summary, sd, ed, obj.description)
                 obj.googleId = event_id
                 print("----", obj.googleId)
