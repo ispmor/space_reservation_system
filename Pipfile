@@ -22,6 +22,10 @@ gunicorn = "==19.9.0"
 bootstrap3-datetime = "==2.4"
 bootstrap4 = "==0.1.0"
 sqlparse = "==0.3.0"
+google-api-python-client = "==1.7.8"
+google-auth = "==1.6.3"
+google-auth-httplib2 = "==0.0.3"
+google-auth-oauthlib = "==0.3.0"
 
 [requires]
 python_version = "3.7"

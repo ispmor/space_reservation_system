@@ -5,6 +5,7 @@ from django.views import generic
 from django.utils import timezone
 from users.models import CustomUser
 from datetime import datetime, timedelta
+from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 
 from .models import Reservation
 from bootstrap_modal_forms.generic import (BSModalLoginView,
@@ -62,47 +63,47 @@ class ReservationListView(generic.ListView):
 #         return render(request, 'failed_register.html')
 
 
-# def reservation(request):
-#     if request.user.is_authenticated:
-#         form = ReservationForm()
-#         if request.method == 'POST':
-#             form = ReservationForm(request.POST)
-#             if form.is_valid():
-#                 reservation = Reservation()
-#                 guest = User.objects.get(username=request.user.username)
-#                 reservation.user = guest
-#                 reservation.room = form.cleaned_data.get('room')
-#                 reservation.status = 'i'
-#                 reservation.start_reservation = form.cleaned_data.get('start_reservation')
-#                 reservation.end_reservation = form.cleaned_data.get('end_reservation')
-#                 reservation.description = form.cleaned_data.get('description')
-#                 if not validate_reservation_date(reservation) :
-#                     return HttpResponseRedirect(settings.FAILED_RESERVATION_URL)
-#                 reservation.save()
-#                 return HttpResponseRedirect(settings.INDEX_REDIRECT_URL)
-#             else :
-#                 return HttpResponseRedirect(settings.FAILED_RESERVATION_URL)
-#         else :
-#             form = ReservationForm()
-#             return render(request, 'reservation.html',{'form': form})
-#     else:
-#         return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+def reservation(request):
+    if request.user.is_authenticated:
+        form = ReservationForm()
+        if request.method == 'POST':
+            form = ReservationForm(request.POST)
+            if form.is_valid():
+                reservation = Reservation()
+                guest = CustomUser.objects.get(username=request.user.username)
+                reservation.user = guest
+                reservation.room = form.cleaned_data.get('room')
+                reservation.status = 'i'
+                reservation.start_reservation = form.cleaned_data.get('start_reservation')
+                reservation.end_reservation = form.cleaned_data.get('end_reservation')
+                reservation.description = form.cleaned_data.get('description')
+                if not validate_reservation_date(reservation) :
+                    return HttpResponseRedirect('reservations')
+                reservation.save()
+                return HttpResponseRedirect('/')
+            else :
+                return HttpResponseRedirect('reservations')
+        else :
+            form = ReservationForm()
+            return render(request, 'reservation/reservation.html',{'form': form})
+    else:
+        return HttpResponseRedirect('')
 
-# def validate_reservation_date(reservation):
-#     reservation_list = Reservation.objects.filter(room=reservation.room, status='a').order_by("-start_reservation")
+def validate_reservation_date(reservation):
+    reservation_list = Reservation.objects.filter(room=reservation.room, status='a').order_by("-start_reservation")
     
-#     if 0 < len(reservation_list) <= 25 :
-#         number_of_checked_reservations = len(reservation_list) -1
-#     elif len(reservation_list) > 0 :
-#         number_of_checked_reservations = 25
-#     else:
-#         number_of_checked_reservations = 0
-#     for r in reservation_list[: number_of_checked_reservations]:
-#         print("=======", r.start_reservation, reservation.start_reservation)
-#         print("+++++++", r.end_reservation, reservation.end_reservation )
-#         if r.start_reservation < reservation.start_reservation < r.end_reservation or r.start_reservation < reservation.end_reservation < r.end_reservation :
-#             return False
-#     return True
+    if 0 < len(reservation_list) <= 25 :
+        number_of_checked_reservations = len(reservation_list) -1
+    elif len(reservation_list) > 0 :
+        number_of_checked_reservations = 25
+    else:
+        number_of_checked_reservations = 0
+    for r in reservation_list[: number_of_checked_reservations]:
+        print("=======", r.start_reservation, reservation.start_reservation)
+        print("+++++++", r.end_reservation, reservation.end_reservation )
+        if r.start_reservation < reservation.start_reservation < r.end_reservation or r.start_reservation < reservation.end_reservation < r.end_reservation :
+            return False
+    return True
 
             
 # def reservations(request):

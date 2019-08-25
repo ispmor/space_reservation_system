@@ -1,6 +1,8 @@
 
 from django.contrib import admin
 from .models import Reservation
+from .google_calendar import Calendar
+
 
 class ReservationAdmin(admin.ModelAdmin):
 
