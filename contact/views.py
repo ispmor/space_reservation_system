@@ -11,4 +11,4 @@ class ContactView(BSModalCreateView):
     form_class = ContactForm
     template_name = 'contact/modals/contact.html'
     success_message = 'Success: You successfully contacted us!.'
-    success_url = reverse_lazy('/')
+    success_url = reverse_lazy('home')

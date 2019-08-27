@@ -13,4 +13,4 @@ class RoomListView(generic.ListView):
     model = Room
     template_name = 'room/list.html'
     success_message = 'Success: Rooms found.'
-    success_url = reverse_lazy('/')
+    success_url = reverse_lazy('home')

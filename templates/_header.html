@@ -39,11 +39,11 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-    <button onclick="location.href='/'" class="w3-bar-item w3-button btn"  name="button" style="width:25% !important">HOME</button>
-    <button onclick="location.href='/about'" class="w3-bar-item w3-button btn" name="button" style="width:25% !important">ABOUT</button>
-    <button class="contact-btn w3-bar-item w3-button btn"  name="button" style="width:25% !important">CONTACT</button>
+    <button onclick="location.href='/'" class="w3-bar-item w3-button btn"  name="button" style="width:25% !important">Home</button>
+    <button onclick="location.href='/about'" class="w3-bar-item w3-button btn" name="button" style="width:25% !important">About</button>
+    <button class="contact-btn w3-bar-item w3-button btn"  name="button" style="width:25% !important">Contact</button>
     {% if user.is_authenticated %}
-              <a href="{% url 'logout' %}" class="logout-btn btn btn-danger" role="button">Log out</a>
+              <a href="{% url 'logout' %}" class="logout-btn btn btn-danger" role="button" style="width:25% !important">Log out</a>
                <ul>
                 <span>
                 Your are logged in as
@@ -51,8 +51,8 @@
               </span>
               </ul>
     {% else %}
-  <button class="login-btn btn btn-primary" type="button" name="button">Log in</button>
-  <button class="signup-btn btn btn-primary" type="button" name="button">Sign up</button>
+  <button class="login-btn btn w3-bar-item w3-button" type="button" name="button" style="width:25% !important">Log in</button>
+  <button class="signup-btn btn w3-button btn-primary" type="button" name="button" style="width:25% !important">Sign up</button>
     {% endif %}
       </div>
   </div>
