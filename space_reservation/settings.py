@@ -183,3 +183,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
+
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
+TEST_RUNNER = 'django_heroku.HerokuDiscoverRunner'
