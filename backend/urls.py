@@ -34,11 +34,11 @@ urlpatterns = [
 
     # http://localhost:8000/api/admin/
     path('api/admin/', admin.site.urls),
-    path('pages', include(page_url)),
-    path('rooms', include(room_url)),
-    path('reservations', include(reservation_url)),
-    path('contact', include(contact_url)),
-    path('users', include(user_url)),
+    path('', include(page_url)),
+    path('rooms/', include(room_url)),
+    path('reservations/', include(reservation_url)),
+    path('contact/', include(contact_url)),
+    path('users/', include(user_url)),
 ]
 
 
