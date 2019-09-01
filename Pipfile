@@ -26,6 +26,7 @@ google-auth = "==1.6.3"
 google-auth-httplib2 = "==0.0.3"
 google-auth-oauthlib = "==0.3.0"
 Django = "==2.2.0"
+dj-database-url = "*"
 
 [requires]
 python_version = "3.7"
