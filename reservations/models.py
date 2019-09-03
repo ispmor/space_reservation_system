@@ -1,6 +1,7 @@
 
 
 from django.db import models
+
 import uuid
 
 class Reservation(models.Model):
@@ -28,3 +29,4 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f'{self.user} {self.room}'
+

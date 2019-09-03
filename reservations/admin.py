@@ -1,11 +1,10 @@
-
 from django.contrib import admin
 from .models import Reservation
 from .google_calendar import Calendar
+from django.contrib import messages
 
 
 class ReservationAdmin(admin.ModelAdmin):
-
     list_display = ('user', 'room', 'start_reservation', 'end_reservation')
     list_filter = ['user', 'room']
     list_filter = ['status', 'user', 'room']
@@ -17,7 +16,7 @@ class ReservationAdmin(admin.ModelAdmin):
     )
 
     def response_post_save_change(self, request, obj):
-        if request.POST.get('_accept'):
+        if request.POST.get('_accept') and obj.user.permission == 'a':
             calendar = Calendar()
             obj.status = 'a'
             summary = str(obj.room) + " " + str(obj.user)
@@ -41,4 +40,12 @@ class ReservationAdmin(admin.ModelAdmin):
             obj.status = 'i'
             obj.save()
             return super().response_post_save_change(request, obj)
+        else:
+            print("PERMISSION ---> " + obj.user.permission)
+            messages.add_message(request, messages.ERROR, "User " + str(obj.user) +
+                                 " is not allowed to make a reservation," +
+                                 " please check Users permission before proceeding.")
+            return super().response_post_save_change(request, obj)
+
+
 admin.site.register(Reservation, ReservationAdmin)
